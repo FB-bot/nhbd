@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive Direct Link Generator | NHBD</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        :root {
+            --primary: #FFD700;
+            --secondary: #FFA500;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #333333;
+            --success: #4CAF50;
+            --error: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.03) 90%);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--gray);
+            background-color: rgba(34, 34, 34, 0.8);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 215, 0, 0.5);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background-color: rgba(255, 215, 0, 0.5);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result-container {
+            background-color: rgba(34, 34, 34, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .result-title {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            background-color: rgba(255, 215, 0, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .action-btn:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+        
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .result-link {
+            word-break: break-all;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-family: monospace;
+            position: relative;
+        }
+        
+        .qr-container {
+            text-align: center;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .qr-title {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        #qrCode {
+            margin: 0 auto;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background-color: rgba(34, 34, 34, 0.8);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-title {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(10, 10, 10, 0.8);
+            margin-top: auto;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .toast.error {
+            background-color: var(--error);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .action-btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--dark);
+            animation: spin 1s linear infinite;
+            position: absolute;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .btn-text {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cloud-download-alt"></i>
+            </div>
+            <h1>Google Drive Direct Link Generator</h1>
+            <p class="subtitle">Convert shared Google Drive links to direct download links instantly</p>
+        </header>
+        
+        <div class="input-group">
+            <i class="fas fa-link input-icon"></i>
+            <input type="text" id="driveLink" placeholder="Paste your Google Drive link here...">
+        </div>
+        
+        <button class="btn" id="generateBtn">
+            <span class="btn-text" id="btnText">Generate Direct Link</span>
+            <div class="spinner" id="spinner"></div>
+        </button>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Instant Conversion</h3>
+                <p class="feature-desc">Get direct download links in seconds without any waiting time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h3 class="feature-title">QR Code</h3>
+                <p class="feature-desc">Generate QR codes for easy sharing and mobile access.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Secure</h3>
+                <p class="feature-desc">No data is stored on our servers. Your privacy is protected.</p>
+            </div>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <div class="result-header">
+                <div class="result-title">Direct Download Link</div>
+                <div class="action-buttons">
+                    <button class="action-btn" id="copyBtn">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" id="shareBtn">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                    <button class="action-btn" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+            <div class="result-link" id="output">
+                <span id="directLinkText"></span>
+            </div>
+            <div class="qr-container" id="qrContainer">
+                <div class="qr-title">Scan QR Code to Download</div>
+                <div id="qrCode"></div>
+                <button class="action-btn" id="downloadQrBtn" style="margin-top: 10px;">
+                    <i class="fas fa-download"></i> Download QR
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; Sajjad Hosen</p>
+    </footer>
+    
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main functionality
+            const generateBtn = document.getElementById('generateBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const shareBtn = document.getElementById('shareBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const downloadQrBtn = document.getElementById('downloadQrBtn');
+            const resultContainer = document.getElementById('resultContainer');
+            const qrContainer = document.getElementById('qrContainer');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+            const directLinkText = document.getElementById('directLinkText');
+            const toast = document.getElementById('toast');
+            const driveLinkInput = document.getElementById('driveLink');
+            
+            let currentDirectLink = '';
+            let qrCodeInstance = null;
+            
+            generateBtn.addEventListener('click', generateLink);
+            copyBtn.addEventListener('click', copyLink);
+            shareBtn.addEventListener('click', shareLink);
+            downloadBtn.addEventListener('click', downloadFile);
+            downloadQrBtn.addEventListener('click', downloadQR);
+            
+            // Add keypress event for Enter key
+            driveLinkInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    generateLink();
+                }
+            });
+            
+            // Focus on input when page loads
+            driveLinkInput.focus();
+            
+            async function generateLink() {
+                const inputLink = driveLinkInput.value.trim();
+                
+                if (!inputLink) {
+                    showToast("Please enter a Google Drive link", true);
+                    driveLinkInput.focus();
+                    return;
+                }
+                
+                // Validate Google Drive link
+                if (!isValidDriveLink(inputLink)) {
+                    showToast("Invalid Google Drive link. Please check and try again.", true);
+                    driveLinkInput.focus();
+                    return;
+                }
+                
+                // Show loading state
+                toggleLoadingState(true);
+                
+                try {
+                    const fileId = extractFileId(inputLink);
+                    
+                    if (fileId) {
+                        currentDirectLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                        
+                        directLinkText.textContent = currentDirectLink;
+                        resultContainer.style.display = "block";
+                        
+                        generateQRCode(currentDirectLink);
+                        
+                        // Enable action buttons
+                        copyBtn.disabled = false;
+                        shareBtn.disabled = false;
+                        downloadBtn.disabled = false;
+                        downloadQrBtn.disabled = false;
+                        
+                        // Analytics event (you can replace with your own)
+                        console.log("Generated link for file ID:", fileId);
+                    } else {
+                        showToast("Could not extract file ID from the link", true);
+                    }
+                } catch (error) {
+                    console.error("Error generating link:", error);
+                    showToast("An error occurred. Please try again.", true);
+                } finally {
+                    // Hide loading state
+                    toggleLoadingState(false);
+                }
+            }
+            
+            function isValidDriveLink(link) {
+                const drivePatterns = [
+                    /https?:\/\/drive\.google\.com\/file\/d\/([^\/]+)/,
+                    /https?:\/\/drive\.google\.com\/open\?id=([^&]+)/,
+                    /https?:\/\/docs\.google\.com\/.*\/d\/([^\/]+)/,
+                    /https?:\/\/drive\.google\.com\/uc\?id=([^&]+)/
+                ];
+                
+                return drivePatterns.some(pattern => pattern.test(link));
+            }
+            
+            function extractFileId(link) {
+                // Try to match common Google Drive URL patterns
+                const patterns = [
+                    /\/file\/d\/([^\/]+)/,
+                    /\/open\?id=([^&]+)/,
+                    /\/d\/([^\/]+)/,
+                    /id=([^&]+)/,
+                    /[-\w]{25,}/
+                ];
+                
+                for (const pattern of patterns) {
+                    const match = link.match(pattern);
+                    if (match && match[1]) {
+                        return match[1];
+                    } else if (match && match[0]) {
+                        return match[0];
+                    }
+                }
+                
+                return null;
+            }
+            
+            function toggleLoadingState(isLoading) {
+                if (isLoading) {
+                    btnText.style.opacity = "0";
+                    spinner.style.display = "block";
+                    generateBtn.disabled = true;
+                } else {
+                    btnText.style.opacity = "1";
+                    spinner.style.display = "none";
+                    generateBtn.disabled = false;
+                }
+            }
+            
+            function copyLink() {
+                if (!currentDirectLink) {
+                    showToast("No link to copy", true);
+                    return;
+                }
+                
+                navigator.clipboard.writeText(currentDirectLink)
+                    .then(() => showToast("Link copied to clipboard!"))
+                    .catch(err => {
+                        console.error("Failed to copy:", err);
+                        // Fallback for browsers that don't support clipboard API
+                        const textarea = document.createElement('textarea');
+                        textarea.value = currentDirectLink;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        showToast("Link copied to clipboard!");
+                    });
+            }
+            
+            function shareLink() {
+                if (!currentDirectLink) {
+                    showToast("No link to share", true);
+                    return;
+                }
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Google Drive Direct Download Link',
+                        text: 'Check out this direct download link:',
+                        url: currentDirectLink
+                    }).catch(err => {
+                        console.error("Error sharing:", err);
+                        showToast("Sharing failed or was cancelled", true);
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    copyLink();
+                }
+            }
+            
+            function downloadFile() {
+                if (!currentDirectLink) {
+                    showToast("No link to download", true);
+                    return;
+                }
+                
+                // Create a temporary anchor element to trigger download
+                const a = document.createElement('a');
+                a.href = currentDirectLink;
+                a.download = 'google-drive-download'; // You can extract filename from URL if needed
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                showToast("Download started in new tab");
+            }
+            
+            function generateQRCode(link) {
+                qrContainer.style.display = "block";
+                document.getElementById("qrCode").innerHTML = "";
+                
+                if (qrCodeInstance) {
+                    qrCodeInstance.clear();
+                }
+                
+                qrCodeInstance = new QRCode(document.getElementById("qrCode"), {
+                    text: link,
+                    width: 160,
+                    height: 160,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+            
+            function downloadQR() {
+                if (!currentDirectLink) {
+                    showToast("No QR code to download", true);
+                    return;
+                }
+                
+                const qrCodeElement = document.querySelector("#qrCode canvas");
+                if (!qrCodeElement) {
+                    showToast("QR code not generated yet", true);
+                    return;
+                }
+                
+                try {
+                    const link = document.createElement('a');
+                    link.download = 'google-drive-qr.png';
+                    link.href = qrCodeElement.toDataURL("image/png");
+                    link.click();
+                    
+                    showToast("QR code downloaded");
+                } catch (error) {
+                    console.error("Error downloading QR code:", error);
+                    showToast("Failed to download QR code", true);
+                }
+            }
+            
+            function showToast(message, isError = false) {
+                toast.textContent = message;
+                toast.className = isError ? "toast error" : "toast";
+                toast.style.display = "block";
+                toast.style.animation = "slideIn 0.3s ease-out";
+                
+                setTimeout(() => {
+                    toast.style.animation = "fadeOut 0.5s ease-out";
+                    setTimeout(() => {
+                        toast.style.display = "none";
+                        toast.style.animation = "";
+                    }, 500);
+                }, 3000);
+            }
+            
+            // Add animation to features on scroll
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(20px)";
+                card.style.transition = "all 0.6s ease-out";
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

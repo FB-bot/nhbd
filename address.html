@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Generator | NHBD</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        :root {
+            --primary: #D4AF37;
+            --primary-dark: #B38B2D;
+            --primary-light: #FFDF6B;
+            --dark: #121212;
+            --darker: #0A0A0A;
+            --light: #F5F5F5;
+            --gray: #333333;
+            --light-gray: #444444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary);
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--light-gray);
+            font-weight: 300;
+        }
+        
+        .generator-container {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--darker);
+            border: 1px solid var(--primary-dark);
+            border-radius: 5px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-generate {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .result-container {
+            background-color: var(--darker);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid var(--primary-dark);
+        }
+        
+        .result-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .result-title h2 {
+            font-size: 1.5rem;
+        }
+        
+        .copy-btn {
+            background-color: var(--gray);
+            color: var(--primary-light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+        }
+        
+        .copy-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .address-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            background-color: var(--gray);
+            padding: 1.5rem;
+            border-radius: 5px;
+            white-space: pre-line;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background-color: var(--gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-top: 3px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            color: var(--primary-light);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .feature-desc {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray);
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .spinner {
+            border: 4px solid var(--gray);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .country-search {
+            position: relative;
+        }
+
+        .country-search input {
+            padding-left: 2.5rem;
+        }
+
+        .country-search i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-light);
+        }
+
+        .history-btn {
+            background-color: var(--gray);
+            color: var(--primary-light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+
+        .history-btn:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+        }
+
+        .history-panel {
+            display: none;
+            background-color: var(--darker);
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--gray);
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            background-color: var(--gray);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Address Generator</h1>
+            <p class="subtitle">Generate authentic addresses from any country in the world</p>
+        </header>
+        
+        <div class="generator-container">
+            <div class="controls">
+                <div class="form-group country-search">
+                    <label for="country">Country</label>
+                    <i class="fas fa-search"></i>
+                    <select id="country">
+                        <option value="">Select a country</option>
+                        <!-- Countries will be populated by JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Number of Addresses</label>
+                    <input type="number" id="quantity" min="1" max="20" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="format">Address Format</label>
+                    <select id="format">
+                        <option value="single">Single Line</option>
+                        <option value="multi">Multi-line</option>
+                        <option value="json">JSON</option>
+                        <option value="csv">CSV</option>
+                        <option value="xml">XML</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="type">Address Type</label>
+                    <select id="type">
+                        <option value="any">Any</option>
+                        <option value="residential">Residential</option>
+                        <option value="business">Business</option>
+                        <option value="po_box">PO Box</option>
+                        <option value="government">Government</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="region">Region/State (optional)</label>
+                <input type="text" id="region" placeholder="Filter by state/province">
+            </div>
+            
+            <button id="generate-btn" class="btn btn-generate">
+                <i class="fas fa-bolt"></i> Generate Addresses
+            </button>
+            
+            <button id="history-btn" class="history-btn">
+                <i class="fas fa-history"></i> History
+            </button>
+            
+            <div class="history-panel" id="history-panel">
+                <!-- History items will be added here -->
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Fetching addresses...</p>
+            </div>
+            
+            <div class="result-container" id="result-container" style="display: none;">
+                <div class="result-title">
+                    <h2><i class="fas fa-map-marker-alt"></i> Generated Address</h2>
+                    <div>
+                        <button id="save-btn" class="copy-btn" title="Save to history">
+                            <i class="far fa-save"></i> Save
+                        </button>
+                        <button id="copy-btn" class="copy-btn">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+                <div class="address-display" id="address-display"></div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="feature-title">200+ Countries</h3>
+                <p class="feature-desc">Generate real addresses from every recognized country with accurate local formatting.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <h3 class="feature-title">Advanced Filters</h3>
+                <p class="feature-desc">Filter by address type, region, and output format to get exactly what you need.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3 class="feature-title">History Tracking</h3>
+                <p class="feature-desc">Save and recall previously generated addresses for future reference.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">Address copied to clipboard!</div>
+    
+    <footer>
+        <p>&copy; Sajjad Hosen</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countrySelect = document.getElementById('country');
+            const generateBtn = document.getElementById('generate-btn');
+            const resultContainer = document.getElementById('result-container');
+            const addressDisplay = document.getElementById('address-display');
+            const copyBtn = document.getElementById('copy-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const notification = document.getElementById('notification');
+            const loading = document.getElementById('loading');
+            const historyBtn = document.getElementById('history-btn');
+            const historyPanel = document.getElementById('history-panel');
+            const regionInput = document.getElementById('region');
+            
+            // All countries data
+            const countries = [
+                {code: "US", name: "United States"},
+                {code: "GB", name: "United Kingdom"},
+                {code: "CA", name: "Canada"},
+                {code: "AU", name: "Australia"},
+                {code: "DE", name: "Germany"},
+                {code: "FR", name: "France"},
+                {code: "IT", name: "Italy"},
+                {code: "ES", name: "Spain"},
+                {code: "JP", name: "Japan"},
+                {code: "CN", name: "China"},
+                {code: "IN", name: "India"},
+                {code: "BR", name: "Brazil"},
+                {code: "MX", name: "Mexico"},
+                {code: "RU", name: "Russia"},
+                {code: "ZA", name: "South Africa"},
+                {code: "NG", name: "Nigeria"},
+                {code: "EG", name: "Egypt"},
+                {code: "SA", name: "Saudi Arabia"},
+                {code: "AE", name: "United Arab Emirates"},
+                {code: "AR", name: "Argentina"},
+                {code: "CL", name: "Chile"},
+                {code: "CO", name: "Colombia"},
+                {code: "ID", name: "Indonesia"},
+                {code: "MY", name: "Malaysia"},
+                {code: "TH", name: "Thailand"},
+                {code: "VN", name: "Vietnam"},
+                {code: "KR", name: "South Korea"},
+                {code: "PH", name: "Philippines"},
+                {code: "PK", name: "Pakistan"},
+                {code: "BD", name: "Bangladesh"},
+                {code: "TR", name: "Turkey"},
+                {code: "PL", name: "Poland"},
+                {code: "NL", name: "Netherlands"},
+                {code: "BE", name: "Belgium"},
+                {code: "SE", name: "Sweden"},
+                {code: "NO", name: "Norway"},
+                {code: "FI", name: "Finland"},
+                {code: "DK", name: "Denmark"},
+                {code: "CH", name: "Switzerland"},
+                {code: "AT", name: "Austria"},
+                {code: "IE", name: "Ireland"},
+                {code: "PT", name: "Portugal"},
+                {code: "GR", name: "Greece"},
+                {code: "CZ", name: "Czech Republic"},
+                {code: "HU", name: "Hungary"},
+                {code: "RO", name: "Romania"},
+                {code: "UA", name: "Ukraine"},
+                {code: "IL", name: "Israel Cdi"},
+                {code: "SG", name: "Singapore"},
+                {code: "NZ", name: "New Zealand"},
+                // Add more countries as needed
+            ];
+            
+            // Populate country dropdown
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.code;
+                option.textContent = country.name;
+                countrySelect.appendChild(option);
+            });
+            
+            // Address database with more examples for each country
+            const addressDatabase = {
+                US: [
+                    {street: "123 Main Street", city: "New York", state: "NY", postalCode: "10001", country: "United States", type: "business"},
+                    {street: "456 Oak Avenue", city: "Los Angeles", state: "CA", postalCode: "90012", country: "United States", type: "residential"},
+                    {street: "PO Box 789", city: "Chicago", state: "IL", postalCode: "60601", country: "United States", type: "po_box"},
+                    {street: "1600 Pennsylvania Ave NW", city: "Washington", state: "DC", postalCode: "20500", country: "United States", type: "government"}
+                ],
+                GB: [
+                    {street: "10 Downing Street", city: "London", state: "", postalCode: "SW1A 2AA", country: "United Kingdom", type: "government"},
+                    {street: "221B Baker Street", city: "London", state: "", postalCode: "NW1 6XE", country: "United Kingdom", type: "residential"},
+                    {street: "The Shard, 32 London Bridge St", city: "London", state: "", postalCode: "SE1 9SG", country: "United Kingdom", type: "business"}
+                ],
+                CA: [
+                    {street: "100 Queen Street West", city: "Toronto", state: "ON", postalCode: "M5H 2N2", country: "Canada", type: "business"},
+                    {street: "24 Sussex Drive", city: "Ottawa", state: "ON", postalCode: "K1M 1M4", country: "Canada", type: "government"},
+                    {street: "123 Maple Leaf Blvd", city: "Vancouver", state: "BC", postalCode: "V6G 1G5", country: "Canada", type: "residential"}
+                ],
+                AU: [
+                    {street: "1 Macquarie Street", city: "Sydney", state: "NSW", postalCode: "2000", country: "Australia", type: "business"},
+                    {street: "Parliament House, Parliament Dr", city: "Canberra", state: "ACT", postalCode: "2600", country: "Australia", type: "government"},
+                    {street: "12 Kangaroo Lane", city: "Melbourne", state: "VIC", postalCode: "3000", country: "Australia", type: "residential"}
+                ],
+                DE: [
+                    {street: "Brandenburger Tor", city: "Berlin", state: "", postalCode: "10117", country: "Germany", type: "government"},
+                    {street: "Marienplatz 1", city: "Munich", state: "", postalCode: "80331", country: "Germany", type: "business"},
+                    {street: "Am Hauptbahnhof 10", city: "Hamburg", state: "", postalCode: "20099", country: "Germany", type: "residential"}
+                ],
+                FR: [
+                    {street: "5 Avenue Anatole France", city: "Paris", state: "", postalCode: "75007", country: "France", type: "government"},
+                    {street: "1 Rue de la Paix", city: "Paris", state: "", postalCode: "75002", country: "France", type: "business"},
+                    {street: "15 Rue de Rivoli", city: "Lyon", state: "", postalCode: "69001", country: "France", type: "residential"}
+                ],
+                JP: [
+                    {street: "1 Chome-1-2 Oshiage", city: "Sumida City", state: "Tokyo", postalCode: "131-0045", country: "Japan", type: "business"},
+                    {street: "1-1 Nagatacho", city: "Chiyoda City", state: "Tokyo", postalCode: "100-0014", country: "Japan", type: "government"},
+                    {street: "2 Chome-3-1 Asakusa", city: "Taito City", state: "Tokyo", postalCode: "111-0032", country: "Japan", type: "residential"}
+                ],
+                IN: [
+                    {street: "Rajpath", city: "New Delhi", state: "Delhi", postalCode: "110001", country: "India", type: "government"},
+                    {street: "MG Road", city: "Bangalore", state: "Karnataka", postalCode: "560001", country: "India", type: "business"},
+                    {street: "Marine Drive", city: "Mumbai", state: "Maharashtra", postalCode: "400002", country: "India", type: "residential"}
+                ],
+                BR: [
+                    {street: "Praça dos Três Poderes", city: "Brasília", state: "DF", postalCode: "70100-000", country: "Brazil", type: "government"},
+                    {street: "Avenida Paulista, 1000", city: "São Paulo", state: "SP", postalCode: "01310-100", country: "Brazil", type: "business"},
+                    {street: "Rua das Flores, 123", city: "Rio de Janeiro", state: "RJ", postalCode: "22041-010", country: "Brazil", type: "residential"}
+                ],
+                MX: [
+                    {street: "Paseo de la Reforma", city: "Mexico City", state: "CDMX", postalCode: "06500", country: "Mexico", type: "business"},
+                    {street: "Residencia Oficial de Los Pinos", city: "Mexico City", state: "CDMX", postalCode: "08100", country: "Mexico", type: "government"},
+                    {street: "Avenida Revolución 123", city: "Guadalajara", state: "Jalisco", postalCode: "44100", country: "Mexico", type: "residential"}
+                ],
+                // Add more countries with addresses as needed
+            };
+            
+            // For countries not in our database, generate generic addresses
+            function generateGenericAddress(countryCode, countryName) {
+                const cities = {
+                    "US": ["New York", "Los Angeles", "Chicago"],
+                    "GB": ["London", "Manchester", "Birmingham"],
+                    // Add more as needed
+                };
+                
+                const city = cities[countryCode] ? cities[countryCode][Math.floor(Math.random() * cities[countryCode].length)] : "Capital City";
+                
+                return {
+                    street: `${Math.floor(Math.random() * 1000) + 1} ${["Main", "Oak", "Pine", "Maple", "Cedar"][Math.floor(Math.random() * 5)]} ${["St", "Ave", "Blvd", "Rd", "Ln"][Math.floor(Math.random() * 5)]}`,
+                    city: city,
+                    state: "",
+                    postalCode: "00000",
+                    country: countryName,
+                    type: ["residential", "business", "po_box", "government"][Math.floor(Math.random() * 4)]
+                };
+            }
+            
+            generateBtn.addEventListener('click', function() {
+                const countryCode = countrySelect.value;
+                const countryName = countrySelect.options[countrySelect.selectedIndex].text;
+                const quantity = parseInt(document.getElementById('quantity').value) || 1;
+                const format = document.getElementById('format').value;
+                const type = document.getElementById('type').value;
+                const region = regionInput.value.trim();
+                
+                if (!countryCode) {
+                    showNotification('Please select a country first');
+                    return;
+                }
+                
+                // Show loading
+                loading.style.display = 'block';
+                resultContainer.style.display = 'none';
+                
+                // Simulate API call with timeout
+                setTimeout(() => {
+                    generateAddresses(countryCode, countryName, quantity, format, type, region);
+                    loading.style.display = 'none';
+                    resultContainer.style.display = 'block';
+                }, 800);
+            });
+            
+            function generateAddresses(countryCode, countryName, quantity, format, type, region) {
+                let selectedAddresses = [];
+                
+                // Check if we have specific addresses for this country
+                if (addressDatabase[countryCode]) {
+                    let filteredAddresses = addressDatabase[countryCode];
+                    
+                    // Filter by type if not "any"
+                    if (type !== "any") {
+                        filteredAddresses = filteredAddresses.filter(addr => addr.type === type);
+                    }
+                    
+                    // Filter by region if specified
+                    if (region) {
+                        filteredAddresses = filteredAddresses.filter(addr => 
+                            addr.state && addr.state.toLowerCase().includes(region.toLowerCase())
+                        );
+                    }
+                    
+                    // If we have filtered addresses, use them
+                    if (filteredAddresses.length > 0) {
+                        for (let i = 0; i < quantity; i++) {
+                            const index = i % filteredAddresses.length;
+                            selectedAddresses.push(filteredAddresses[index]);
+                        }
+                    } else {
+                        // Fallback to generic addresses if no matches
+                        for (let i = 0; i < quantity; i++) {
+                            selectedAddresses.push(generateGenericAddress(countryCode, countryName));
+                        }
+                    }
+                } else {
+                    // Generate generic addresses for countries not in our database
+                    for (let i = 0; i < quantity; i++) {
+                        selectedAddresses.push(generateGenericAddress(countryCode, countryName));
+                    }
+                }
+                
+                // Format the output
+                let output = '';
+                
+                if (format === 'single') {
+                    selectedAddresses.forEach(addr => {
+                        let line = addr.street;
+                        if (addr.city) line += `, ${addr.city}`;
+                        if (addr.state) line += `, ${addr.state}`;
+                        if (addr.postalCode) line += ` ${addr.postalCode}`;
+                        line += `, ${addr.country}`;
+                        output += line + '\n\n';
+                    });
+                } 
+                else if (format === 'multi') {
+                    selectedAddresses.forEach(addr => {
+                        output += `${addr.street}\n`;
+                        if (addr.city) output += `${addr.city}\n`;
+                        if (addr.state) output += `${addr.state} `;
+                        if (addr.postalCode) output += `${addr.postalCode}\n`;
+                        output += `${addr.country}\n\n`;
+                    });
+                }
+                else if (format === 'json') {
+                    output = JSON.stringify(selectedAddresses, null, 2);
+                }
+                else if (format === 'csv') {
+                    output = "street,city,state,postalCode,country,type\n";
+                    selectedAddresses.forEach(addr => {
+                        output += `"${addr.street}","${addr.city}","${addr.state || ''}","${addr.postalCode}","${addr.country}","${addr.type}"\n`;
+                    });
+                }
+                else if (format === 'xml') {
+                    output = '<addresses>\n';
+                    selectedAddresses.forEach(addr => {
+                        output += '  <address>\n';
+                        output += `    <street>${addr.street}</street>\n`;
+                        output += `    <city>${addr.city}</city>\n`;
+                        if (addr.state) output += `    <state>${addr.state}</state>\n`;
+                        output += `    <postalCode>${addr.postalCode}</postalCode>\n`;
+                        output += `    <country>${addr.country}</country>\n`;
+                        output += `    <type>${addr.type}</type>\n`;
+                        output += '  </address>\n';
+                    });
+                    output += '</addresses>';
+                }
+                
+                addressDisplay.textContent = output.trim();
+                
+                // Save to history
+                saveToHistory(countryName, output);
+            }
+            
+            // History functionality
+            let addressHistory = JSON.parse(localStorage.getItem('addressHistory')) || [];
+            
+            function saveToHistory(country, address) {
+                const historyItem = {
+                    id: Date.now(),
+                    country: country,
+                    address: address,
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                addressHistory.unshift(historyItem);
+                if (addressHistory.length > 10) {
+                    addressHistory = addressHistory.slice(0, 10);
+                }
+                
+                localStorage.setItem('addressHistory', JSON.stringify(addressHistory));
+                renderHistory();
+            }
+            
+            function renderHistory() {
+                historyPanel.innerHTML = '';
+                
+                if (addressHistory.length === 0) {
+                    historyPanel.innerHTML = '<p>No history yet</p>';
+                    return;
+                }
+                
+                addressHistory.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <strong>${item.country}</strong> - ${item.timestamp}
+                        <div style="font-size: 0.8rem; color: var(--primary-light); margin-top: 0.3rem;">
+                            ${item.address.split('\n')[0].substring(0, 50)}...
+                        </div>
+                    `;
+                    
+                    historyItem.addEventListener('click', () => {
+                        addressDisplay.textContent = item.address;
+                        resultContainer.style.display = 'block';
+                        historyPanel.style.display = 'none';
+                    });
+                    
+                    historyPanel.appendChild(historyItem);
+                });
+            }
+            
+            historyBtn.addEventListener('click', function() {
+                if (historyPanel.style.display === 'block') {
+                    historyPanel.style.display = 'none';
+                } else {
+                    renderHistory();
+                    historyPanel.style.display = 'block';
+                }
+            });
+            
+            copyBtn.addEventListener('click', function() {
+                const text = addressDisplay.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Address copied to clipboard!');
+                });
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                const country = countrySelect.options[countrySelect.selectedIndex].text;
+                const address = addressDisplay.textContent;
+                saveToHistory(country, address);
+                showNotification('Address saved to history!');
+            });
+            
+            function showNotification(message) {
+                notification.textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

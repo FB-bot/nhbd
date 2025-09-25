@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIN/IIN Lookup | NHBD</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #FFD700;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            background: #1c1c1c;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(230, 175, 46, 0.5);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: #2a2a2a;
+            color: #FFD700;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #FFD700;
+            border: none;
+            color: #121212;
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #e6c200;
+        }
+
+        #result {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border-radius: 5px;
+            padding: 10px;
+            background: #1a1a1a;
+            display: none;
+        }
+
+        .alert {
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .alert-success {
+            background-color: #FFD700;
+            color: #222;
+        }
+
+        .alert-warning {
+            background-color: #e6c200;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: #222;
+        }
+
+        /* Footer Style */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #FFD700;
+        }
+
+        .footer a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>BIN/IIN Lookup</h1>
+        <textarea id="binInput" placeholder="Enter single or multiple BINs (one per line)"></textarea>
+        <button id="lookupBtn" class="btn btn-primary">Lookup</button>
+        <div id="result"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; Sajjad Hosen</p>
+    </div>
+
+    <script>
+        function lookupBIN() {
+            const inputText = document.getElementById('binInput').value.trim();
+            const binList = inputText.split("\n").map(bin => bin.trim()).filter(bin => bin.length === 6 && /^\d+$/.test(bin));
+
+            if (binList.length === 0) {
+                alert('Please enter valid 6-digit BIN/IIN numbers.');
+                return;
+            }
+
+            document.getElementById('result').innerHTML = '<div class="alert alert-warning">Fetching data, please wait...</div>';
+            document.getElementById('result').style.display = "block";
+
+            let resultHtml = '';
+            let promises = binList.map(bin =>
+                fetch(`https://cors-bypasser-gilt.vercel.app/fetchdata?url=https://binlist.io/lookup/${bin}/`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        resultHtml += `
+                            <div class="alert alert-success">
+                                <h4 class="alert-heading">BIN/IIN Information</h4>
+                                <p><strong>Number:</strong> ${data.number.iin} (Length: ${data.number.length}, Luhn: ${data.number.luhn})</p>
+                                <p><strong>Scheme:</strong> ${data.scheme}</p>
+                                <p><strong>Type:</strong> ${data.type || 'N/A'}</p>
+                                <p><strong>Category:</strong> ${data.category || 'N/A'}</p>
+                                <p><strong>Country:</strong> ${data.country.emoji || ''} ${data.country.name || 'N/A'} (${data.country.alpha2 || ''})</p>
+                                <p><strong>Bank:</strong> ${data.bank.name || 'N/A'}</p>
+                                <p><strong>Phone:</strong> ${data.bank.phone || 'N/A'}</p>
+                                <p><strong>URL:</strong> ${data.bank.url ? `<a href="http://${data.bank.url}" target="_blank">${data.bank.url}</a>` : 'N/A'}</p>
+                            </div>
+                        `;
+                    } else {
+                        resultHtml += `
+                            <div class="alert alert-warning">
+                                <h4 class="alert-heading">Partial Information (Guessed)</h4>
+                                <p><strong>BIN:</strong> ${bin}</p>
+                                <p><strong>Scheme:</strong> ${data.scheme || 'N/A'}</p>
+                                <p><strong>Type:</strong> ${data.type || 'N/A'}</p>
+                                <p><strong>Category:</strong> ${data.category || 'N/A'}</p>
+                                <p><strong>Country:</strong> Not available</p>
+                                <p><strong>Bank:</strong> Not available</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(() => {
+                    resultHtml += `<div class="alert alert-danger">Error fetching data for BIN: ${bin}</div>`;
+                })
+            );
+
+            Promise.all(promises).then(() => {
+                document.getElementById('result').innerHTML = resultHtml;
+            });
+        }
+
+        document.getElementById('lookupBtn').addEventListener('click', lookupBIN);
+    </script>
+
+</body>
+
+</html>

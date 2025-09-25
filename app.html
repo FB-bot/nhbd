@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHBD App Store</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        :root {
+            --primary-dark: #1A1A1A;
+            --secondary-dark: #2D2D2D;
+            --accent-gold: #FFD700;
+            --accent-gold-light: #FFE55C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #CCCCCC;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header with animated gradient */
+        header {
+            background: linear-gradient(135deg, #3a3a3a 0%, #1A1A1A 50%, #000000 100%);
+            color: var(--accent-gold);
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 215, 0, 0.1) 0%,
+                rgba(255, 215, 0, 0) 50%,
+                rgba(255, 215, 0, 0.1) 100%
+            );
+            animation: shine 6s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            margin: 0.5rem 0 0;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background-color: var(--secondary-dark);
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-tabs li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-tabs li a:hover, .nav-tabs li a.active {
+            color: var(--accent-gold);
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        .nav-tabs li a i {
+            font-size: 1.1rem;
+        }
+
+        /* Search container with floating effect */
+        .search-container {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 800px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .search-box-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border-radius: 30px;
+            border: 2px solid var(--secondary-dark);
+            font-size: 1rem;
+            outline: none;
+            background-color: var(--secondary-dark);
+            color: var(--text-primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .search-box:focus + .search-icon {
+            color: var(--accent-gold);
+        }
+
+        /* Filter chips */
+        .filter-chips {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.5rem auto;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .chip {
+            padding: 0.5rem 1.2rem;
+            background-color: var(--secondary-dark);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .chip:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+            border-color: var(--accent-gold);
+        }
+
+        .chip.active {
+            background-color: var(--accent-gold);
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* Main container */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* App card with 3D effect */
+        .app-card {
+            background-color: var(--secondary-dark);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            width: 300px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-gold);
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-card:hover::before {
+            opacity: 1;
+        }
+
+        .app-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .app-card-content {
+            padding: 1.5rem;
+        }
+
+        .app-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent-gold);
+        }
+
+        .app-card .app-description {
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            min-height: 60px;
+        }
+
+        .app-card .app-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .app-card .app-version {
+            color: var(--text-secondary);
+        }
+
+        .app-card .app-size {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Download button with icon */
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            color: #222;
+            padding: 0.8rem;
+            margin: 0;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Rating stars */
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .rating-stars {
+            color: var(--accent-gold);
+            margin-right: 0.5rem;
+        }
+
+        .rating-count {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* App badge */
+        .app-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--danger);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-gold);
+            color: #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Footer with wave effect */
+        footer {
+            background-color: #111;
+            color: var(--accent-gold);
+            text-align: center;
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23111" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23111" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23111"/></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        /* Dark mode toggle (already dark by default) */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: var(--secondary-dark);
+            border: none;
+            color: var(--accent-gold);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .app-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .filter-chips {
+                gap: 0.5rem;
+            }
+            
+            .chip {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tooltip for app cards */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--secondary-dark);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-gold);
+            animation: spin 1s ease-in-out infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme toggle button -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Header with animated background -->
+    <header>
+        <h1>NHBD App Store</h1>
+        <p>Premium Android Applications Collection</p>
+    </header>
+
+    <!-- Search container -->
+    <div class="search-container">
+        <div class="search-box-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" class="search-box" placeholder="Search for apps..." onkeyup="searchApps()">
+        </div>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="filter-chips">
+        <div class="chip active">All Apps</div>
+        <div class="chip">Popular</div>
+        <div class="chip">New</div>
+        <div class="chip">Tools</div>
+        <div class="chip">Hacking</div>
+        <div class="chip">Updated</div>
+    </div>
+
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loadingSpinner"></div>
+
+    <!-- Main app container -->
+    <div class="container" id="appList">
+        <!-- App Card 0 -->
+        <div class="app-card fade-in">
+            <span class="app-badge">Popular</span>
+            <img src="https://i.ibb.co.com/cSb4j9Q9/20241015-024321.png" alt="Bojjad Bomb App">
+            <div class="app-card-content">
+                <h2>Bojjad Bomb</h2>
+                <div class="rating">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="rating-count">(128)</div>
+                </div>
+                <p class="app-description">Powerful SMS Bombing application with advanced features and customization options.</p>
+                <div class="app-meta">
+                    <span class="app-version">v2.3.1</span>
+                    <span class="app-size">8.4 MB</span>
+                </div>
+                <div class="tooltip">
+                    <a href="https://github.com/S4jj4d404/App/raw/refs/heads/main/Bojjad%20bomb.apk" class="download-btn">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                    <span class="tooltiptext">Login Key: Bojjad</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Card 1 -->
+        <div class="app-card fade-in">
+            <span class="app-badge">Editor's Choice</span>
+            <img src="https://i.ibb.co.com/m57P14hC/ic-launcher.webp/" alt="MT Manager App">
+            <div class="app-card-content">
+                <h2>MT Manager</h2>
+                <div class="rating">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="rating-count">(342)</div>
+                </div>
+                <p class="app-description">Advanced APK compiler, decompiler, and editor with powerful file management capabilities.</p>
+                <div class="app-meta">
+                    <span class="app-version">v3.0.0</span>
+                    <span class="app-size">12.7 MB</span>
+                </div>
+                <a href="https://github.com/S4jj4d404/App/raw/refs/heads/main/base.apk" class="download-btn">
+                    <i class="fas fa-download"></i> Download
+                </a>
+            </div>
+        </div>
+        
+        <!-- App Card 2 -->
+        <div class="app-card fade-in">
+            <span class="app-badge">New</span>
+            <img src="https://i.ibb.co.com/m57P14hC/ic-launcher.webp/" alt="Smseye App">
+            <div class="app-card-content">
+                <h2>Smseye</h2>
+                <div class="rating">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="rating-count">(87)</div>
+                </div>
+                <p class="app-description">SMS hacking application with intuitive interface and powerful features. 
+                    <a href="https://www.facebook.com/100064861099033/videos/566059989770385/?mibextid=rS40aB7S9Ucbxw6v" target="_blank" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                        <i class="fas fa-video"></i> Tutorial
+                    </a>
+                </p>
+                <div class="app-meta">
+                    <span class="app-version">v1.2.5</span>
+                    <span class="app-size">5.9 MB</span>
+                </div>
+                <a href="https://github.com/S4jj4d404/App/raw/refs/heads/main/SmsEye.apk" class="download-btn">
+                    <i class="fas fa-download"></i> Download
+                </a>
+            </div>
+        </div>
+
+        <!-- App Card 3 -->
+        <div class="app-card fade-in">
+            <img src="https://i.ibb.co.com/m57P14hC/ic-launcher.webp/" alt="Gallery Eye App">
+            <div class="app-card-content">
+                <h2>Gallery Eye</h2>
+                <div class="rating">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="rating-count">(64)</div>
+                </div>
+                <p class="app-description">Gallery hacking tool with advanced scanning and recovery features.
+                    <a href="https://www.facebook.com/reel/1353101416040234/?app=fbl" target="_blank" style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">
+                        <i class="fas fa-video"></i> Tutorial
+                    </a>
+                </p>
+                <div class="app-meta">
+                    <span class="app-version">v1.1.0</span>
+                    <span class="app-size">7.2 MB</span>
+                </div>
+                <a href="https://github.com/S4jj4d404/App/raw/refs/heads/main/GalleryEye.apk" class="download-btn">
+                    <i class="fas fa-download"></i> Download
+                </a>
+            </div>
+        </div>
+      
+    
+    <!-- Floating action button -->
+    <div class="fab" id="fabButton">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Footer with wave effect -->
+    <footer>
+            <p class="copyright">© Sajjad Hosen</p>
+    </footer>
+
+    <script>
+        // Enhanced search function
+        function searchApps() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let cards = document.getElementsByClassName("app-card");
+            let noResults = true;
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                for (let i = 0; i < cards.length; i++) {
+                    let appTitle = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
+                    let appDesc = cards[i].getElementsByClassName("app-description")[0].innerText.toLowerCase();
+                    
+                    if (appTitle.includes(input) || appDesc.includes(input)) {
+                        cards[i].style.display = "block";
+                        noResults = false;
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
+                
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').style.display = 'none';
+                
+                // Show no results message if needed
+                if (noResults && input.length > 0) {
+                    alert("No apps found matching your search.");
+                }
+            }, 500);
+        }
+
+        // Filter chips functionality
+        const chips = document.querySelectorAll('.chip');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                // Here you would add actual filtering logic
+            });
+        });
+
+        // Back to top button
+        const fabButton = document.getElementById('fabButton');
+        fabButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                fabButton.style.opacity = '1';
+                fabButton.style.visibility = 'visible';
+            } else {
+                fabButton.style.opacity = '0';
+                fabButton.style.visibility = 'hidden';
+            }
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Add light theme styles dynamically
+        const style = document.createElement('style');
+        style.id = 'light-theme-styles';
+        style.textContent = `
+            .light-theme {
+                --primary-dark: #f5f5f5;
+                --secondary-dark: #ffffff;
+                --text-primary: #333333;
+                --text-secondary: #666666;
+                background-color: var(--primary-dark);
+            }
+            
+            .light-theme header {
+                background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 50%, #cccccc 100%);
+                color: #222;
+            }
+            
+            .light-theme .app-card {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .light-theme .search-box {
+                background-color: white;
+                color: #333;
+            }
+            
+            .light-theme .nav-container {
+                background-color: #e0e0e0;
+            }
+            
+            .light-theme .nav-tabs li a {
+                color: #555;
+            }
+            
+            .light-theme footer {
+                background-color: #e0e0e0;
+                color: #222;
+            }
+            
+            .light-theme footer::before {
+                background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23e0e0e0" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23e0e0e0" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23e0e0e0"/></svg>');
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Gate | NHBD</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #2a2a2a;
+            --golden-yellow: #FFD700;
+            --dark-gold: #b8860b;
+            --light-gold: #f1c40f;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            background-image: radial-gradient(circle at 10% 20%, rgba(184, 134, 11, 0.1) 0%, rgba(26, 26, 26, 1) 90%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .card {
+            background-color: var(--secondary-dark);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--dark-gold), var(--golden-yellow), var(--dark-gold));
+        }
+        
+        h1 {
+            color: var(--golden-yellow);
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+        }
+        
+        .disclaimer {
+            background-color: rgba(184, 134, 11, 0.15);
+            padding: 15px;
+            border-left: 4px solid var(--golden-yellow);
+            margin-bottom: 25px;
+            font-size: clamp(0.75rem, 3vw, 0.85rem);
+            border-radius: 4px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .menu-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 10px;
+            background-color: rgba(26, 26, 26, 0.7);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            height: 100%;
+            min-height: 80px;
+            box-sizing: border-box;
+        }
+        
+        .menu-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+            border-color: var(--golden-yellow);
+        }
+        
+        .menu-option i {
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            margin-bottom: 8px;
+            color: var(--golden-yellow);
+        }
+        
+        .menu-option span {
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            margin-bottom: 4px;
+        }
+        
+        .menu-option small {
+            font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+            opacity: 0.8;
+            font-weight: normal;
+        }
+        
+        .menu-option.green {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+        
+        .menu-option.green:hover {
+            background-color: rgba(46, 204, 113, 0.2);
+            border-color: var(--success);
+        }
+        
+        .section-title {
+            color: var(--golden-yellow);
+            margin-bottom: 18px;
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--golden-yellow);
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            box-sizing: border-box;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--golden-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px 12px;
+            background: linear-gradient(135deg, var(--dark-gold), var(--golden-yellow));
+            color: var(--text-dark);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            transition: all 0.3s;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 50px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--golden-yellow);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 10px 15px;
+            border-radius: 6px;
+            background-color: rgba(255, 215, 0, 0.1);
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            margin-bottom: 15px;
+        }
+        
+        .back-btn:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+        
+        .results {
+            margin-top: 25px;
+        }
+        
+        .result {
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
+            font-size: clamp(0.75rem, 3vw, 0.85rem);
+        }
+        
+        .result:hover {
+            transform: translateX(5px);
+        }
+        
+        .result i {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            flex-shrink: 0;
+        }
+        
+        .result.approved {
+            border-left-color: var(--success);
+            color: var(--success);
+        }
+        
+        .result.approved i {
+            color: var(--success);
+        }
+        
+        .result.declined {
+            border-left-color: var(--danger);
+            color: var(--danger);
+        }
+        
+        .result.declined i {
+            color: var(--danger);
+        }
+        
+        .result.error {
+            border-left-color: var(--warning);
+            color: var(--warning);
+        }
+        
+        .result.error i {
+            color: var(--warning);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--dark-gold), var(--golden-yellow));
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 8px;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .stat-box h3 {
+            color: var(--golden-yellow);
+            margin: 0;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+        }
+        
+        .stat-box p {
+            margin: 5px 0 0;
+            font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 180px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: clamp(0.7rem, 3vw, 0.8rem);
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--golden-yellow);
+            cursor: pointer;
+            font-size: clamp(0.75rem, 3vw, 0.85rem);
+            margin-left: auto;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        
+        footer {
+            background-color: var(--secondary-dark);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: var(--golden-yellow);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: clamp(0.75rem, 3vw, 0.85rem);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .footer-links a i {
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+        }
+        
+        .footer-links a:hover {
+            color: var(--light-gold);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 18px;
+            }
+            
+            .menu {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .menu-option {
+                padding: 16px 10px;
+                min-height: 70px;
+            }
+            
+            button {
+                padding: 14px 12px;
+                min-height: 45px;
+            }
+            
+            .stats {
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .stat-box {
+                min-width: calc(50% - 10px);
+                padding: 6px;
+            }
+            
+            .footer-links {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>STRIPE GATE</h1>
+            <p class="subtitle">Check Approved cards with Stripe authentication</p>
+
+            <div id="menu" class="menu">
+                <a href="#" class="menu-option green" onclick="showSection('single-check')">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Single Check</span>
+                    <small>Validate individual cards</small>
+                </a>
+                <a href="#" class="menu-option" onclick="showSection('mass-check')">
+                    <i class="fas fa-list-ol"></i>
+                    <span>Mass Check</span>
+                    <small>Process multiple cards</small>
+                </a>
+            </div>
+
+            <div id="single-check" class="hidden">
+                <h2 class="section-title"><i class="fas fa-credit-card"></i> Single Card Check</h2>
+                
+                <div class="input-group">
+                    <label for="single-card">CARD DETAILS <span class="tooltip">(?)
+                        <span class="tooltiptext">Format: NUMBER|MM|YY|CVC<br>Example: 4111111111111111|06|26|123</span>
+                    </span></label>
+                    <input type="text" id="single-card" placeholder="4111111111111111|06|26|123">
+                </div>
+                
+                <div class="input-group">
+                    <label for="check-type">VALIDATION TYPE</label>
+                    <select id="check-type">
+                        <option value="basic">Basic Validation</option>
+                        <option value="advanced">Advanced Simulation</option>
+                        <option value="bin">BIN Lookup</option>
+                    </select>
+                </div>
+                
+                <button onclick="checkSingleCard()">
+                    <i class="fas fa-search"></i> VALIDATE CARD
+                </button>
+                
+                <a href="#" class="back-btn" onclick="showSection('menu')">
+                    <i class="fas fa-arrow-left"></i> BACK TO MENU
+                </a>
+                
+                <div id="single-result" class="results"></div>
+            </div>
+
+            <div id="mass-check" class="hidden">
+                <h2 class="section-title"><i class="fas fa-list-ol"></i> Mass Card Check</h2>
+                
+                <div class="input-group">
+                    <label for="card-list">ENTER CARDS (ONE PER LINE) <span class="tooltip">(?)
+                        <span class="tooltiptext">Format for each line: NUMBER|MM|YY|CVC<br>Example:<br>4111111111111111|06|26|123<br>5111111111111111|12|25|456</span>
+                    </span></label>
+                    <textarea id="card-list" placeholder="4111111111111111|06|26|123&#10;5111111111111111|12|25|456"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="threads">PROCESSING THREADS</label>
+                    <select id="threads">
+                        <option value="1">1 Thread (Slow but stable)</option>
+                        <option value="2">2 Threads</option>
+                        <option value="3">3 Threads</option>
+                        <option value="4">4 Threads (Fastest)</option>
+                    </select>
+                </div>
+                
+                <button onclick="checkMassCards()">
+                    <i class="fas fa-play"></i> PROCESS CARDS
+                </button>
+                
+                <div class="progress-bar hidden" id="mass-progress">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                
+                <div class="stats hidden" id="stats">
+                    <div class="stat-box">
+                        <h3 id="total-cards">0</h3>
+                        <p>Total Cards</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3 id="approved-cards">0</h3>
+                        <p>Approved</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3 id="declined-cards">0</h3>
+                        <p>Declined</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3 id="error-cards">0</h3>
+                        <p>Errors</p>
+                    </div>
+                </div>
+                
+                <a href="#" class="back-btn" onclick="showSection('menu')">
+                    <i class="fas fa-arrow-left"></i> BACK TO MENU
+                </a>
+                
+                <div id="mass-results" class="results"></div>
+                <button class="hidden" id="copy-results" onclick="copyResults()">
+                    <i class="fas fa-copy"></i> COPY RESULTS
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+            <p>&copy Fahid</p>
+    </footer>
+
+    <script>
+        // Show/hide sections
+        function showSection(sectionId) {
+            document.querySelectorAll('.card > div').forEach(div => {
+                div.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Reset results when switching sections
+            if (sectionId === 'menu') {
+                document.getElementById('single-result').innerHTML = '';
+                document.getElementById('mass-results').innerHTML = '';
+                document.getElementById('copy-results').classList.add('hidden');
+                document.getElementById('stats').classList.add('hidden');
+                document.getElementById('mass-progress').classList.add('hidden');
+            }
+        }
+
+        // Simulate card checking with more realistic responses
+        function checkSingleCard() {
+            const cardInput = document.getElementById('single-card').value.trim();
+            const checkType = document.getElementById('check-type').value;
+            const resultDiv = document.getElementById('single-result');
+            resultDiv.innerHTML = '';
+            
+            if (!cardInput) {
+                resultDiv.innerHTML = '<div class="result error"><i class="fas fa-exclamation-circle"></i> Please enter a card</div>';
+                return;
+            }
+
+            // Validate card format
+            const cardParts = cardInput.split('|');
+            if (cardParts.length !== 4) {
+                resultDiv.innerHTML = '<div class="result error"><i class="fas fa-exclamation-circle"></i> Invalid format. Use NUMBER|MM|YY|CVC</div>';
+                return;
+            }
+
+            // Simulate checking with progress
+            resultDiv.innerHTML = '<div class="result"><i class="fas fa-spinner fa-pulse"></i> Validating card...</div>';
+            
+            setTimeout(() => {
+                // More sophisticated simulation based on check type
+                let randomResult, responseTime, message;
+                const cardNumber = cardParts[0];
+                const bin = cardNumber.substring(0, 6);
+                
+                // Different behaviors based on check type
+                if (checkType === 'bin') {
+                    // BIN lookup simulation
+                    responseTime = Math.floor(Math.random() * 1000) + 500;
+                    const binData = {
+                        "411111": {brand: "VISA", type: "Credit", country: "US", bank: "Test Bank"},
+                        "511111": {brand: "MasterCard", type: "Credit", country: "US", bank: "Test Bank"},
+                        "371449": {brand: "American Express", type: "Credit", country: "US", bank: "Test Bank"},
+                        "601111": {brand: "Discover", type: "Credit", country: "US", bank: "Test Bank"}
+                    };
+                    
+                    if (binData[bin]) {
+                        const info = binData[bin];
+                        message = `[ℹ️] BIN INFO: ${bin}<br>
+                                  Brand: ${info.brand}<br>
+                                  Type: ${info.type}<br>
+                                  Country: ${info.country}<br>
+                                  Bank: ${info.bank}`;
+                        resultDiv.innerHTML = `<div class="result"><i class="fas fa-info-circle"></i> ${message}</div>`;
+                    } else {
+                        message = `[!] BIN not found in database: ${bin}`;
+                        resultDiv.innerHTML = `<div class="result error"><i class="fas fa-exclamation-circle"></i> ${message}</div>`;
+                    }
+                    return;
+                } else if (checkType === 'advanced') {
+                    // Advanced simulation with more realistic responses
+                    responseTime = Math.floor(Math.random() * 1500) + 1000;
+                    randomResult = Math.random();
+                    
+                    if (randomResult > 0.75) {
+                        // Approved with additional info
+                        const authCode = Math.floor(Math.random() * 900000) + 100000;
+                        message = `[✓] APPROVED: ${cardInput}<br>
+                                    Auth Code: ${authCode}<br>
+                                    Response: Transaction approved`;
+                        resultDiv.innerHTML = `<div class="result approved"><i class="fas fa-check-circle"></i> ${message}</div>`;
+                    } else if (randomResult > 0.45) {
+                        // Declined with reason
+                        const reasons = [
+                            "Insufficient funds",
+                            "Invalid CVV",
+                            "Expired card",
+                            "Issuer declined",
+                            "Do not honor"
+                        ];
+                        const reason = reasons[Math.floor(Math.random() * reasons.length)];
+                        message = `[✗] DECLINED: ${cardInput}<br>
+                                    Reason: ${reason}`;
+                        resultDiv.innerHTML = `<div class="result declined"><i class="fas fa-times-circle"></i> ${message}</div>`;
+                    } else {
+                        // Error case
+                        const errors = [
+                            "Connection timeout",
+                            "Invalid card number",
+                            "Processor error",
+                            "System malfunction"
+                        ];
+                        const error = errors[Math.floor(Math.random() * errors.length)];
+                        message = `[!] ERROR: ${cardInput}<br>
+                                  Error: ${error}`;
+                        resultDiv.innerHTML = `<div class="result error"><i class="fas fa-exclamation-circle"></i> ${message}</div>`;
+                    }
+                } else {
+                    // Basic validation
+                    responseTime = Math.floor(Math.random() * 800) + 300;
+                    randomResult = Math.random();
+                    
+                    if (randomResult > 0.7) {
+                        message = `[✓] APPROVED: ${cardInput}`;
+                        resultDiv.innerHTML = `<div class="result approved"><i class="fas fa-check-circle"></i> ${message}</div>`;
+                    } else if (randomResult > 0.4) {
+                        message = `[✗] DECLINED: ${cardInput}`;
+                        resultDiv.innerHTML = `<div class="result declined"><i class="fas fa-times-circle"></i> ${message}</div>`;
+                    } else {
+                        message = `[!] ERROR: Could not process ${cardInput}`;
+                        resultDiv.innerHTML = `<div class="result error"><i class="fas fa-exclamation-circle"></i> ${message}</div>`;
+                    }
+                }
+            }, 500);
+        }
+
+        function checkMassCards() {
+            const cardsText = document.getElementById('card-list').value.trim();
+            const resultDiv = document.getElementById('mass-results');
+            const threads = parseInt(document.getElementById('threads').value);
+            resultDiv.innerHTML = '';
+            
+            if (!cardsText) {
+                resultDiv.innerHTML = '<div class="result error"><i class="fas fa-exclamation-circle"></i> Please enter card list</div>';
+                return;
+            }
+
+            const cards = cardsText.split('\n').filter(card => card.trim());
+            if (cards.length === 0) {
+                resultDiv.innerHTML = '<div class="result error"><i class="fas fa-exclamation-circle"></i> No valid cards found</div>';
+                return;
+            }
+            
+            // Show progress bar and stats
+            document.getElementById('mass-progress').classList.remove('hidden');
+            document.getElementById('stats').classList.remove('hidden');
+            document.getElementById('copy-results').classList.add('hidden');
+            
+            // Initialize stats
+            document.getElementById('total-cards').textContent = cards.length;
+            document.getElementById('approved-cards').textContent = '0';
+            document.getElementById('declined-cards').textContent = '0';
+            document.getElementById('error-cards').textContent = '0';
+            
+            // Clear previous results
+            resultDiv.innerHTML = '<div class="result"><i class="fas fa-spinner fa-pulse"></i> Processing ' + cards.length + ' cards...</div>';
+            
+            // Simulate checking each card with a delay based on threads
+            let checkedCount = 0;
+            let approvedCount = 0;
+            let declinedCount = 0;
+            let errorCount = 0;
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progress-bar');
+            
+            // Process in batches based on thread count
+            const processBatch = (startIndex) => {
+                const batchSize = Math.min(threads, cards.length - startIndex);
+                
+                for (let i = 0; i < batchSize; i++) {
+                    if (startIndex + i >= cards.length) break;
+                    
+                    const card = cards[startIndex + i];
+                    setTimeout(() => {
+                        // More realistic simulation with different response types
+                        const randomResult = Math.random();
+                        let resultHTML = '';
+                        
+                        if (randomResult > 0.75) {
+                            // Approved case
+                            const authCode = Math.floor(Math.random() * 900000) + 100000;
+                            resultHTML = `<div class="result approved"><i class="fas fa-check-circle"></i> [✓] APPROVED: ${card} | Auth: ${authCode}</div>`;
+                            approvedCount++;
+                        } else if (randomResult > 0.45) {
+                            // Declined case with reason
+                            const reasons = ["Insufficient funds", "Invalid CVV", "Expired card", "Issuer declined"];
+                            const reason = reasons[Math.floor(Math.random() * reasons.length)];
+                            resultHTML = `<div class="result declined"><i class="fas fa-times-circle"></i> [✗] DECLINED: ${card} | Reason: ${reason}</div>`;
+                            declinedCount++;
+                        } else {
+                            // Error case
+                            const errors = ["Processor error", "Timeout", "Invalid card", "System error"];
+                            const error = errors[Math.floor(Math.random() * errors.length)];
+                            resultHTML = `<div class="result error"><i class="fas fa-exclamation-circle"></i> [!] ERROR: ${card} | ${error}</div>`;
+                            errorCount++;
+                        }
+                        
+                        // Append result
+                        if (checkedCount === 0) {
+                            resultDiv.innerHTML = resultHTML;
+                        } else {
+                            resultDiv.innerHTML += resultHTML;
+                        }
+                        
+                        checkedCount++;
+                        
+                        // Update stats
+                        document.getElementById('approved-cards').textContent = approvedCount;
+                        document.getElementById('declined-cards').textContent = declinedCount;
+                        document.getElementById('error-cards').textContent = errorCount;
+                        
+                        // Update progress
+                        const progress = (checkedCount / cards.length) * 100;
+                        progressBar.style.width = progress + '%';
+                        
+                        // If all cards processed
+                        if (checkedCount === cards.length) {
+                            resultDiv.innerHTML += `<div class="result"><i class="fas fa-flag-checkered"></i> Processing complete! ${approvedCount} approved, ${declinedCount} declined, ${errorCount} errors</div>`;
+                            document.getElementById('copy-results').classList.remove('hidden');
+                        }
+                        
+                        // Process next batch if available
+                        if (checkedCount < cards.length && checkedCount % threads === 0) {
+                            processBatch(checkedCount);
+                        }
+                    }, Math.random() * 500 * (i + 1));
+                }
+            };
+            
+            // Start processing
+            processBatch(0);
+        }
+        
+        function copyResults() {
+            const results = document.getElementById('mass-results').innerText;
+            navigator.clipboard.writeText(results).then(() => {
+                alert('Results copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About NHBD | Noob Hacker BD</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        :root {
+            --primary: #FFD700;
+            --secondary: #222;
+            --accent: #ff5;
+            --text-light: #f8f8f8;
+            --text-dark: #222;
+            --bg-dark: #1a1a1a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(34,34,34,0.8) 100%);
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .team-member {
+            width: 350px;
+            background: rgba(34, 34, 34, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
+        }
+        
+        .member-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-member:hover .member-image img {
+            transform: scale(1.05);
+        }
+        
+        .member-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(34,34,34,0.9) 0%, transparent 50%);
+        }
+        
+        .member-info {
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .member-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .member-role {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: var(--primary);
+            color: var(--text-dark);
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .member-desc {
+            color: var(--text-light);
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--text-dark);
+            transform: translateY(-3px);
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .button:hover {
+            background: var(--primary);
+            color: var(--text-dark);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .button:hover::before {
+            left: 100%;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            bottom: 15%;
+            right: 10%;
+            animation: float 18s infinite ease-in-out reverse;
+        }
+        
+        .shape:nth-child(3) {
+            width: 70px;
+            height: 70px;
+            top: 60%;
+            left: 30%;
+            animation: float 12s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(34, 34, 34, 0.8);
+            margin-top: 3rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+        
+        .footer-text {
+            color: var(--text-light);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .team-member {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particles-js"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <div class="header">
+        <h1>Our Team</h1>
+        <p class="subtitle">Meet the brilliant minds behind Noob Hacker BD - a team of passionate cybersecurity experts dedicated to innovation and excellence.</p>
+    </div>
+    
+    <div class="team-container">
+        <div class="team-member">
+            <div class="member-image">
+                <img src="img/member1.jpg" alt="M N Shiddik" />
+            </div>
+            <div class="member-info">
+                <h2>M N Siddik</h2>
+                <span class="member-role">Founder</span>
+                <p class="member-desc">The visionary founder who established Noob Hacker BD with a mission to revolutionize cybersecurity solutions.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/noob.shiddik"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://t.me/noobxvau"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="https://www.facebook.com/noob.shiddik" class="button">View Profile</a>
+            </div>
+        </div>
+        
+        <div class="team-member">
+            <div class="member-image">
+                <img src="img/member2.jpg" alt="Sajjad Hosen" />
+            </div>
+            <div class="member-info">
+                <h2>Sajjad Hosen</h2>
+                <span class="member-role">CEO</span>
+                <p class="member-desc">Driving the technical direction and strategic growth of Noob Hacker BD with exceptional leadership.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/s4jj4d404/"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://t.me/SilentGlint"><i class="fab fa-telegram"></i></a>
+                    <a href="https://github.com/S4jj4d404"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="https://sajjad-hosen.vercel.app/" class="button">View Profile</a>
+            </div>
+        </div>
+
+        <div class="team-member">
+            <div class="member-image">
+                <img src="img/member5.jpeg" alt="Sobuj Hossain Akash" />
+            </div>
+            <div class="member-info">
+                <h2>Sobuj Hossain Akash</h2>
+                <span class="member-role">Acting Chief</span>
+                <p class="member-desc">Currently serving as the Acting Chief of Noob Hacker BD, providing leadership and ensuring operational continuity.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/CALL.ME.DARK.SHADOW.S4B7Z"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://t.me/DARK_SHADOW_S4B7Z"><i class="fab fa-telegram"></i></a>
+                    <a href="https://github.com/dark-s4b7z"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="https://www.facebook.com/CALL.ME.DARK.SHADOW.S4B7Z" class="button">View Profile</a>
+            </div>
+        </div>
+        
+        <div class="team-member">
+            <div class="member-image">
+                <img src="img/member3.jpg" alt="Izhaan Ahmed Alvee" />
+            </div>
+            <div class="member-info">
+                <h2>Izhaan Ahmed Alvee</h2>
+                <span class="member-role">Admin</span>
+                <p class="member-desc">The operational backbone managing all new tasks and ensuring seamless workflow within the team.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/izzhaan.ahmed.alvee"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://t.me/anyrixsec"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="https://www.facebook.com/izzhaan.ahmed.alvee" class="button">View Profile</a>
+            </div>
+        </div>
+
+        <div class="team-member">
+            <div class="member-image">
+                <img src="img/member4.jpg" alt="FI Fahid" />
+            </div>
+            <div class="member-info">
+                <h2>FI Fahid</h2>
+                <span class="member-role">Moderetor</span>
+                <p class="member-desc">A detail-focused moderator skilled in research and analysis to support the team with data-driven insights and strategic decisions.
+</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/7n9rh6w6ry"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://t.me/OldLegendBBK"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="https://www.facebook.com/7n9rh6w6ry" class="button">View Profile</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p class="footer-text">© 2025 Noob Hacker BD. All rights reserved. | Cybersecurity Solutions & Innovation</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#FFD700"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#FFD700",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.5
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>

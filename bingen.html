@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bin Generator | NHBD</title>
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      background: #1e1e1e;
+      color: #ecf0f1;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: #FFD700;
+      text-shadow: 2px 2px 4px #FFD700;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      color: #FFD700;
+    }
+
+    input, select, button {
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #34495e;
+      color: #ecf0f1;
+      border: 1px solid #FFD700;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    input[type="number"] {
+      width: 80px;
+    }
+
+    select {
+      width: 150px;
+    }
+
+    button {
+      background-color: #FFD700;
+      color: #222;
+      border: 1px solid #FFD700;
+    }
+
+    button:hover {
+      background-color: #FFD700;
+      border-color: #FFD700;
+      box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+      transform: scale(1.05);
+    }
+
+    #passwordsDisplay {
+      white-space: pre-line;
+      overflow-y: scroll;
+      max-height: 200px;
+      border: 1px solid #FFD700;
+      padding: 10px;
+      width: 70%;
+      margin: 0 auto;
+      background-color: #34495e;
+      box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+      border-radius: 8px;
+    }
+
+    button.copyButton {
+      margin-top: 10px;
+      background-color: #FFD700;
+    }
+
+    button.copyButton:hover {
+      background-color: #FFD700;
+      transition: background-color 0.3s ease;
+    }
+    
+    footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    color: #FFD700;
+    font-size: 14px;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Bin Generator</h1>
+
+  <label for="firstLetterOption">Select Bin Type</label>
+  <select id="firstLetterOption">
+    <option value="ame">Amex</option>
+    <option value="vis">Visa</option>
+    <option value="mas">MasterCard</option>
+    <option value="dis">Discover</option>
+  </select>
+
+  <label for="numPasswords">Number of Bins:</label>
+  <input type="number" id="numPasswords" min="1" value="10"><br>
+
+  <br>
+
+  <button onclick="generatePasswords()">Generate Bin</button>
+  <div id="passwordsDisplay"></div><br>
+  <button class="copyButton" onclick="copyPasswords()">Copy All Bin</button>
+  
+  <!-- Footer Credit -->
+    <footer>
+        <p>&copy; Sajjad Hosen</p>
+    </footer>
+
+  <script>
+    function generatePasswords() {
+      const numPasswords = parseInt(document.getElementById('numPasswords').value);
+      const firstLetterOption = document.getElementById('firstLetterOption').value;
+      const passwordLength = 6; // Generate a 6-digit BIN
+      const characters = '0123456789';
+      let passwords = '';
+
+      const firstLetterMap = {
+        'ame': '3', // American Express starts with 3
+        'vis': '4', // Visa starts with 4
+        'mas': '5', // MasterCard starts with 5
+        'dis': '6', // Discover starts with 6
+      };
+
+      const firstLetter = firstLetterMap[firstLetterOption];
+
+      for (let j = 0; j < numPasswords; j++) {
+        let password = firstLetter; // Start with the selected first letter
+
+        for (let i = 1; i < passwordLength; i++) {  // Length 6, so generate 5 more digits
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          password += characters.charAt(randomIndex);
+        }
+
+        passwords += `${password}\n`;
+      }
+
+      document.getElementById('passwordsDisplay').textContent = passwords;
+    }
+
+    function copyPasswords() {
+      const passwordsText = document.getElementById('passwordsDisplay').innerText;
+      const textarea = document.createElement('textarea');
+      textarea.value = passwordsText;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      alert('BINs copied to clipboard!');
+    }
+  </script>
+</body>
+</html>

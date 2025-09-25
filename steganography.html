@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography Tool</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type='text/javascript' src='//pl27277581.profitableratecpm.com/aa/02/e4/aa02e48c3c019548e529e843a835a602.js'></script>
+    <style>
+        :root {
+            --primary: #FFD700;
+            --primary-dark: #D4AF37;
+            --secondary: #1A1A1A;
+            --secondary-light: #2D2D2D;
+            --text: #E6E6E6;
+            --text-dark: #B3B3B3;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--secondary-light);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-dark);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: rgba(45, 45, 45, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        .card-content {
+            display: none;
+        }
+
+        .card.active .card-content {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: 2px dashed var(--primary-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary);
+            border: 1px solid var(--primary-dark);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--secondary);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .output-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            display: none;
+        }
+
+        #output {
+            word-wrap: break-word;
+        }
+
+        .preview-container {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid var(--primary-dark);
+            display: none;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: var(--secondary-light);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-lock"></i> Steganography Tool</h1>
+        <p class="subtitle">Hide secret messages in plain sight</p>
+        
+        <div class="card">
+            <div class="card-header" onclick="toggleCard(this)">
+                <h3><i class="fas fa-question-circle"></i> How It Works</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="card-content">
+                <p>This tool allows you to securely hide messages within images:</p>
+                <ol>
+                    <li><strong>Embed Message:</strong> Select an image, enter your secret message, and click "Embed"</li>
+                    <li><strong>Extract Message:</strong> Select an image with a hidden message and click "Extract"</li>
+                </ol>
+                <p>For best results, use PNG images as they are lossless.</p>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="imageInput"><i class="fas fa-image"></i> Select Image</label>
+            <div class="file-input-wrapper">
+                <button class="file-input-button" onclick="document.getElementById('imageInput').click()">
+                    <i class="fas fa-upload"></i> Choose Image File
+                </button>
+                <input type="file" id="imageInput" accept="image/png, image/jpeg" onchange="showFileName(this)">
+            </div>
+            <div id="fileName" class="file-name"></div>
+            <div class="preview-container">
+                <img id="imagePreview" class="preview-image" alt="Image Preview">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="messageInput"><i class="fas fa-key"></i> Secret Message</label>
+            <textarea id="messageInput" placeholder="Type your secret message here..."></textarea>
+        </div>
+
+        <div class="button-group">
+            <button id="embedButton" class="btn btn-primary" onclick="embedMessage()">
+                <i class="fas fa-eye-slash"></i> Embed Message
+            </button>
+            <button id="extractButton" class="btn btn-secondary" onclick="extractMessage()">
+                <i class="fas fa-eye"></i> Extract Message
+            </button>
+        </div>
+
+        <div class="output-container" id="outputContainer">
+            <h3><i class="fas fa-file-alt"></i> Result</h3>
+            <div id="output"></div>
+        </div>
+
+        <canvas id="canvas" style="display: none;"></canvas>
+    </div>
+
+    <footer>
+        © Sajjad Hosen
+    </footer>
+
+    <script>
+        // DOM Elements
+        const imageInput = document.getElementById('imageInput');
+        const messageInput = document.getElementById('messageInput');
+        const embedButton = document.getElementById('embedButton');
+        const extractButton = document.getElementById('extractButton');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const output = document.getElementById('output');
+        const outputContainer = document.getElementById('outputContainer');
+        const fileName = document.getElementById('fileName');
+        const imagePreview = document.getElementById('imagePreview');
+
+        // Toggle card content
+        function toggleCard(header) {
+            const card = header.parentElement;
+            card.classList.toggle('active');
+        }
+
+        // Show file name when selected
+        function showFileName(input) {
+            if (input.files && input.files[0]) {
+                fileName.textContent = input.files[0].name;
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                fileName.textContent = '';
+                imagePreview.style.display = 'none';
+            }
+        }
+
+        // Show alert message
+        function showAlert(message, type = 'info') {
+            output.innerHTML = `<p style="color: ${type === 'error' ? '#ff4444' : '#4CAF50'}">${message}</p>`;
+            outputContainer.style.display = 'block';
+        }
+
+        // Embed Message into Image
+        async function embedMessage() {
+            const file = imageInput.files[0];
+            if (!file) {
+                showAlert('Please select an image first!', 'error');
+                return;
+            }
+
+            if (!messageInput.value.trim()) {
+                showAlert('Please enter a message to embed!', 'error');
+                return;
+            }
+
+            embedButton.disabled = true;
+            embedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const img = await loadImage(file);
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const message = messageInput.value + '\0'; // Null terminator
+                const binaryMessage = stringToBinary(message);
+                
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                // Check if message fits in image
+                if (binaryMessage.length > data.length * 0.25) { // Using 2 bits per channel
+                    showAlert('Message too large for selected image!', 'error');
+                    embedButton.disabled = false;
+                    embedButton.innerHTML = '<i class="fas fa-eye-slash"></i> Embed Message';
+                    return;
+                }
+
+                let messageIndex = 0;
+                
+                for (let i = 0; i < data.length && messageIndex < binaryMessage.length; i++) {
+                    if (i % 4 === 3) continue; // Skip alpha channel
+                    
+                    // Clear the least significant 2 bits
+                    data[i] = data[i] & 0xFC;
+                    
+                    // Embed 2 bits of the message
+                    if (messageIndex < binaryMessage.length) {
+                        const bits = binaryMessage.substr(messageIndex, 2);
+                        data[i] |= parseInt(bits, 2);
+                        messageIndex += 2;
+                    }
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+                
+                // Convert canvas to blob and download
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'secret-nhbd.png';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    showAlert('Message embedded successfully! Image downloaded.', 'success');
+                    embedButton.disabled = false;
+                    embedButton.innerHTML = '<i class="fas fa-eye-slash"></i> Embed Message';
+                }, 'image/png');
+                
+            } catch (error) {
+                console.error('Embed error:', error);
+                showAlert('Error embedding message: ' + error.message, 'error');
+                embedButton.disabled = false;
+                embedButton.innerHTML = '<i class="fas fa-eye-slash"></i> Embed Message';
+            }
+        }
+
+        // Extract Message from Image
+        async function extractMessage() {
+            const file = imageInput.files[0];
+            if (!file) {
+                showAlert('Please select an image first!', 'error');
+                return;
+            }
+
+            extractButton.disabled = true;
+            extractButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const img = await loadImage(file);
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                let binaryMessage = '';
+                let message = '';
+                let nullFound = false;
+                
+                for (let i = 0; i < data.length && !nullFound; i++) {
+                    if (i % 4 === 3) continue; // Skip alpha channel
+                    
+                    // Get the least significant 2 bits
+                    const bits = (data[i] & 0x03).toString(2).padStart(2, '0');
+                    binaryMessage += bits;
+                    
+                    // Check if we have a complete byte (4 pixels = 8 bits = 1 byte)
+                    if (binaryMessage.length >= 8) {
+                        const byte = binaryMessage.substr(0, 8);
+                        binaryMessage = binaryMessage.substr(8);
+                        
+                        const charCode = parseInt(byte, 2);
+                        if (charCode === 0) {
+                            nullFound = true;
+                        } else {
+                            message += String.fromCharCode(charCode);
+                        }
+                    }
+                }
+
+                if (message) {
+                    output.innerHTML = `
+                        <p style="color: #4CAF50">Hidden message found:</p>
+                        <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                            ${message}
+                        </div>
+                    `;
+                } else {
+                    showAlert('No hidden message found in this image.', 'error');
+                }
+                
+                outputContainer.style.display = 'block';
+                extractButton.disabled = false;
+                extractButton.innerHTML = '<i class="fas fa-eye"></i> Extract Message';
+                
+            } catch (error) {
+                console.error('Extract error:', error);
+                showAlert('Error extracting message: ' + error.message, 'error');
+                extractButton.disabled = false;
+                extractButton.innerHTML = '<i class="fas fa-eye"></i> Extract Message';
+            }
+        }
+
+        // Helper function to load image
+        function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Convert string to binary
+        function stringToBinary(str) {
+            return str.split('').map(char => {
+                return char.charCodeAt(0).toString(2).padStart(8, '0');
+            }).join('');
+        }
+    </script>
+</body>
+</html>
