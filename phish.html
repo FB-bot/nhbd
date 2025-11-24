@@ -503,9 +503,7 @@ async function processFile(){
     content = content.replace(/__TOKEN__/g, token);
     content = content.replace(/__CHATID__/g, chatid);
 
-    // Append Noob Hacker BD footer into the file itself
-    const footer = "\n\n# Code sent via Noob Hacker BD\n# Channel: https://t.me/+ENYrQ5N9WNE3NWQ9\n";
-    content += footer;
+
 
     // Prepare file as Blob
     const fileBlob = new Blob([content], { type: "text/plain" });
