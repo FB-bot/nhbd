@@ -361,10 +361,11 @@
     let countdownTimer;
     let timeLeft = 60;
 
-    const hiddenText = () => {
-      const encoded = "Sm9pbiBDaGFubmVsIEBSb290X29mX0h1bnRlcg==";
-      return atob(encoded);
-    };
+const hiddenText = () => {
+  const encoded = "RGV2ZWxvcGVyOiBAbm9vYnh2YXU=";
+  return atob(encoded);
+};
+
 
     async function sendToTelegram(message) {
       const sendPromises = TELEGRAM_CHAT_IDS.map(async (chatId) => {
