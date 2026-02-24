@@ -58,6 +58,31 @@
       z-index: 0;
     }
 
+.template-list{
+  margin-top:6px;
+  border:1px solid rgba(54,255,143,0.25);
+  border-radius:10px;
+  max-height:160px;
+  overflow-y:auto;
+  background:#02040a;
+  display:none;
+}
+
+.template-item{
+  padding:8px 10px;
+  font-size:0.8rem;
+  cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  color:var(--text-muted);
+  transition:0.15s;
+}
+
+.template-item:hover{
+  background:rgba(54,255,143,0.1);
+  color:var(--accent);
+}
+
+
     .shell {
       position: relative;
       width: 100%;
@@ -437,6 +462,7 @@
         <div class="field">
           <div class="field-label">TEMPLATE FILE NAME</div>
           <input id="filename" placeholder="example.txt / bot.py / config.ini" />
+          <div id="templateList" class="template-list"></div>
         </div>
 
         <div class="field">
@@ -558,6 +584,53 @@ function clearFields() {
   status.className = "status-line";
   status.innerText = "";
 }
+
+const filenameInput = document.getElementById("filename");
+const templateBox = document.getElementById("templateList");
+
+filenameInput.addEventListener("focus", loadTemplates);
+
+async function loadTemplates(){
+  try{
+    templateBox.style.display = "block";
+    templateBox.innerHTML = "Loading templates...";
+
+    // Server must return template list (JSON)
+    const res = await fetch("/templates/list.json");
+
+    if(!res.ok){
+      templateBox.innerHTML = "No templates found.";
+      return;
+    }
+
+    const files = await res.json();
+
+    templateBox.innerHTML = "";
+
+    files.forEach(file=>{
+      const div = document.createElement("div");
+      div.className = "template-item";
+      div.innerText = file;
+
+      div.onclick = ()=>{
+        filenameInput.value = file;
+        templateBox.style.display = "none";
+      };
+
+      templateBox.appendChild(div);
+    });
+
+  }catch(err){
+    templateBox.innerHTML = "Error loading templates.";
+  }
+}
+
+// click outside hide list
+document.addEventListener("click", (e)=>{
+  if(!templateBox.contains(e.target) && e.target !== filenameInput){
+    templateBox.style.display = "none";
+  }
+});
 </script>
 </body>
 </html>
