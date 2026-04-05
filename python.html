@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>The Noob Coder · 脚本中心 | 智能下载 + 广告流</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 编程氛围 — 暗色系 + 代码编辑器风格 */
+        body {
+            background: radial-gradient(circle at 10% 20%, #0B1120, #04070F);
+            font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', 'Segoe UI', 'Roboto Mono', monospace;
+            color: #E2E8F0;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 网格背景 + 微光扫描 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 现代英雄区 — 代码终端风格 */
+        .hero-modern {
+            background: linear-gradient(135deg, #0F172F 0%, #0A0F1F 100%);
+            border-radius: 2rem;
+            padding: 1.2rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+            backdrop-filter: blur(2px);
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .terminal-sign {
+            background: #0A0E17;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            border-left: 3px solid #38BDF8;
+            color: #94A3B8;
+        }
+
+        .terminal-sign span {
+            color: #38BDF8;
+            font-weight: bold;
+        }
+
+        .channel-chip {
+            background: rgba(56, 189, 248, 0.12);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            transition: 0.2s;
+        }
+
+        .channel-chip a {
+            color: #38BDF8;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .channel-chip a:hover {
+            text-shadow: 0 0 6px #38BDF8;
+            text-decoration: underline;
+        }
+
+        .site-title-glow {
+            text-align: center;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .site-title-glow h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #FFFFFF, #38BDF8, #A78BFA);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .site-title-glow p {
+            color: #94A3B8;
+            font-family: monospace;
+            border-bottom: 1px dashed #334155;
+            display: inline-block;
+            padding-bottom: 6px;
+            margin-top: 8px;
+        }
+
+        /* 现代搜索栏 — 类似VSCode command palette */
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0 2.5rem 0;
+        }
+
+        .search-box {
+            background: #0F172A;
+            border-radius: 60px;
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #2D3A5E;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .search-box:focus-within {
+            border-color: #38BDF8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2), 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .search-box span {
+            font-size: 1.3rem;
+            color: #38BDF8;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            width: 100%;
+            background: transparent;
+            padding: 10px 0;
+            color: #F1F5F9;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .search-box input::placeholder {
+            color: #475569;
+            font-family: monospace;
+        }
+
+        /* 卡片网格 — 玻璃质感 + 代码感 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .download-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 1.75rem;
+            overflow: hidden;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .download-card:hover {
+            transform: translateY(-6px);
+            border-color: #38BDF8;
+            box-shadow: 0 25px 35px -14px rgba(56, 189, 248, 0.25);
+            background: rgba(20, 30, 55, 0.8);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 170px;
+            background: #0B0F1A;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image::after {
+            content: "⧉";
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-family: monospace;
+            font-size: 1rem;
+            color: rgba(56, 189, 248, 0.5);
+            background: rgba(0,0,0,0.5);
+            padding: 0 6px;
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s;
+        }
+
+        .download-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            padding: 1.2rem 1rem 0.5rem 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+            color: #F1F5F9;
+            min-height: 85px;
+            border-left: 3px solid #38BDF8;
+            margin: 0.8rem 1rem 0.5rem 1rem;
+            background: linear-gradient(90deg, rgba(56,189,248,0.1), transparent);
+            padding-left: 1rem;
+        }
+
+        .download-btn {
+            margin: 0.5rem 1rem 1.4rem 1rem;
+            background: linear-gradient(95deg, #0F2C59, #0A1E3E);
+            border: 1px solid #2D4A7C;
+            padding: 12px 0;
+            border-radius: 3rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+            color: #E2E8F0;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(2px);
+        }
+
+        .download-btn:hover {
+            background: #1E3A8A;
+            border-color: #38BDF8;
+            color: white;
+            transform: scale(0.98);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        .no-results {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            font-family: monospace;
+            border: 1px dashed #38BDF8;
+            color: #CBD5E1;
+        }
+
+        /* 底部 + 频道链接强化 */
+        .footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+            color: #64748B;
+            border-top: 1px solid #1E2A44;
+            font-family: monospace;
+        }
+
+        .footer a {
+            color: #38BDF8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .tutorial-badge {
+            background: #0A0F1F;
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #2D4A7C;
+            margin-top: 8px;
+        }
+
+        /* 通知计时器 — 极客风格 */
+        .timer-notice {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0A0E1A;
+            backdrop-filter: blur(16px);
+            border: 1px solid #38BDF8;
+            color: #E2E8F0;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            z-index: 9999;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 12px rgba(56, 189, 248, 0.3);
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timer-notice span {
+            background: #0F172F;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #38BDF8;
+            font-family: monospace;
+            border: 1px solid #2D4A7C;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .site-title-glow h1 {
+                font-size: 1.7rem;
+            }
+            .hero-badge {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .card-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: #0B1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2D3A5E;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38BDF8;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 英雄区: 编程 vibe + 频道信息 -->
+    <div class="hero-modern">
+        <div class="hero-badge">
+            <div class="terminal-sign">
+                <span>❯❯</span> python_repo/download_center.py <span style="color:#A78BFA;">[active]</span>
+            </div>
+            <div class="channel-chip">
+                📺 <a href="https://youtube.com/@thenoobcoder01" target="_blank" rel="noopener noreferrer">
+                    @thenoobcoder01 · The Noob Coder
+                </a>
+                <span style="color:#38BDF8;">✦</span>
+            </div>
+        </div>
+        <div class="site-title-glow">
+            <h1>📁 𝗦𝗖𝗥𝗜𝗣𝗧 𝗙𝗔𝗥𝗠  &nbsp;|&nbsp;  𝗔𝘂𝘁𝗼 𝗗𝗟</h1>
+            <p>// Monetag bridge · 5s авто-загрузка // The Noob Coder exclusive</p>
+        </div>
+    </div>
+
+    <!-- 搜索区 -->
+    <div class="search-wrapper">
+        <div class="search-box">
+            <span>⌘</span>
+            <input type="text" id="searchInput" placeholder="grep ফাইল / স্ক্রিপ্ট নাম...">
+            <span style="opacity:0.6;">⏎</span>
+        </div>
+    </div>
+
+    <!-- 卡片容器 -->
+    <div id="cardsContainer" class="cards-grid">
+        <div style="grid-column:1/-1; text-align:center; padding:2rem;">⟳ লাইব্রেরি লোড হচ্ছে ...</div>
+    </div>
+
+    <!-- 底部 + 教程链接强化 -->
+    <div class="footer">
+        <div class="tutorial-badge">
+            🧩 সম্পূর্ণ টিউটোরিয়াল ও কাস্টমাইজেশন 👉 
+            <a href="https://youtube.com/@thenoobcoder01" target="_blank"><strong>The Noob Coder</strong> YouTube চ্যানেল</a>
+            &nbsp;|&nbsp; 🐍 Python Script Hub (11 টি স্ক্রিপ্ট)
+        </div>
+        <div style="margin-top: 1rem;">
+            💡 প্রতিটি ডাউনলোড বাটনে ক্লিক করলে Monetag অ্যাড খুলবে → 5 সেকেন্ড পর স্বয়ংক্রিয় ডাউনলোড শুরু।<br>
+            <span style="font-family: monospace;">⚡ সিস্টেম: অ্যাড বাইপাস সুরক্ষা + অটো টাইমার</span>
+        </div>
+    </div>
+</div>
+
+<!-- টাইমার নোটিফিকেশন (স্টাইল আপডেট) -->
+<div id="timerNotice" class="timer-notice">
+    ⏳ <span id="countdownSec">5</span> &nbsp;ডাউনলোড শুরু হবে...
+</div>
+
+<!-- Monetag স্ক্রিপ্ট (অপরিবর্তিত) -->
+<script src="https://quge5.com/88/tag.min.js" data-zone="226644" async data-cfasync="false"></script>
+
+<script>
+    // ======================= ফাইলের তালিকা — 11 টি আইটেম (শুধু আকার বাড়ানো হয়েছে, ফিচার অপরিবর্তিত) =======================
+    const filesData = [
+        { id:1, title:"Web parameter finding python script", imagePath:"files/class1.jpg", filePath:"files/premFd.py", fileName:"PremFd" },
+        { id:2, title:"🕸python encryption tools script ", imagePath:"files/class2.jpg", filePath:"files/encode.py", fileName:"encode.py" },
+        { id:3, title:"🧮Termux basic all command", imagePath:"files/class3.jpg", filePath:"files/termux basic command.txt", fileName:"termux basic command.txt" },
+        { id:4, title:"🗂️ ফাইল অটোমেশন (অর্গানাইজার)", imagePath:"files/class4.jpg", filePath:"files/file_organizer.py", fileName:"file_organizer.py" },
+        { id:5, title:"📊 ম্যাটপ্লটলিব প্লট জেনারেটর", imagePath:"files/class5.jpg", filePath:"files/plot_generator.py", fileName:"plot_generator.py" },
+        { id:6, title:"Emsil spoffing script", imagePath:"files/class6.jpg", filePath:"files/Email spoofing.py", fileName:"Email spoofing.py" },
+        { id:7, title:"📧 SMS BOMBING SCRIPT", imagePath:"files/class7.jpg", filePath:"files/SMS bombing.py", fileName:"SMS bombing.py" },
+        { id:8, title:"PYTHIN AI BOT SCRIPT", imagePath:"files/class8.jpg", filePath:"files/AI bot.py", fileName:"AI bot.py" },
+        { id:9, title:"Python code encryption v2 script ", imagePath:"files/class9.jpg", filePath:"files/encryption v2.py", fileName:"encryption v2.py" },
+        { id:10, title:"📟Image gen Telegram bot Script", imagePath:"files/class10.jpg", filePath:"files/img gen tg.py", fileName:"img gen tg.py" },
+        { id:11, title:"Email Spoffing API making Script ", imagePath:"files/class11.jpg", filePath:"files/fake_data_gen.py", fileName:"fake_data_gen.py" }
+    ];
+    const DEFAULT_IMAGE = "https://picsum.photos/id/1/300/200";
+
+    let activeTimer = null;
+    let pendingDownload = null;
+    const noticeDiv = document.getElementById('timerNotice');
+    const countdownSpan = document.getElementById('countdownSec');
+
+    // ডাউনলোড ফাংশন (original)
+    function downloadFile(filePath, fileName) {
+        const link = document.createElement('a');
+        link.href = filePath;
+        link.download = fileName;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        console.log(`✅ ডাউনলোড হয়েছে: ${fileName}`);
+    }
+
+    // টাইমার শুরু এবং ডাউনলোড (কোরে কোন পরিবর্তন নেই)
+    function startDownloadTimer(filePath, fileName) {
+        if (activeTimer) {
+            clearInterval(activeTimer);
+            activeTimer = null;
+        }
+        let seconds = 5;
+        noticeDiv.style.display = 'flex';
+        countdownSpan.innerText = seconds;
+        
+        activeTimer = setInterval(() => {
+            seconds--;
+            if (seconds >= 0) {
+                countdownSpan.innerText = seconds;
+            }
+            if (seconds <= 0) {
+                clearInterval(activeTimer);
+                activeTimer = null;
+                noticeDiv.style.display = 'none';
+                downloadFile(filePath, fileName);
+                pendingDownload = null;
+            }
+        }, 1000);
+    }
+
+    // Monetag অ্যাড ট্রিগার + টাইমার (একদম অরিজিনাল লজিক)
+    function triggerAdAndDownload(filePath, fileName) {
+        if (activeTimer) {
+            clearInterval(activeTimer);
+            activeTimer = null;
+            noticeDiv.style.display = 'none';
+        }
+        pendingDownload = { filePath, fileName };
+        
+        // Monetag পপ-আন্ডার ট্রিগার - অরিজিনাল মেকানিজম
+        try {
+            if (window.mtag && typeof window.mtag === 'function') {
+                window.mtag('pop');
+            } else if (window.Monetag && typeof window.Monetag.pop === 'function') {
+                window.Monetag.pop();
+            } else {
+                window.open('https://quge5.com/4/8503410?var=10834285', '_blank');
+            }
+        } catch(e) {
+            console.warn("Monetag ট্রিগার এরর:", e);
+            window.open('https://quge5.com/4/8503410?var=10834285', '_blank');
+        }
+        
+        startDownloadTimer(filePath, fileName);
+    }
+
+    // কার্ড রেন্ডারিং (ইউআই পরিবর্তন হয়নি, শুধু স্টাইল আপডেট, ক্লাস সম্পূর্ণ functional)
+    function renderCards(filter = "") {
+        const container = document.getElementById("cardsContainer");
+        if (!container) return;
+        const lower = filter.trim().toLowerCase();
+        let filtered = filesData;
+        if (lower) {
+            filtered = filesData.filter(f => f.title.toLowerCase().includes(lower) || f.fileName.toLowerCase().includes(lower));
+        }
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="no-results">😕 "${filter}" · কোনো স্ক্রিপ্ট মেলেনি | ❯ try again</div>`;
+            return;
+        }
+        let html = "";
+        for (let f of filtered) {
+            html += `
+                <div class="download-card">
+                    <div class="card-image">
+                        <img src="${f.imagePath || DEFAULT_IMAGE}" onerror="this.src='${DEFAULT_IMAGE}'" alt="${escapeHtml(f.title)}">
+                    </div>
+                    <div class="card-title">${escapeHtml(f.title)}</div>
+                    <button class="download-btn" data-path="${escapeAttr(f.filePath)}" data-name="${escapeAttr(f.fileName)}">⬇️ ${f.fileName}  [GET]</button>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const path = btn.getAttribute('data-path');
+                const name = btn.getAttribute('data-name');
+                if (path && name) {
+                    triggerAdAndDownload(path, name);
+                } else {
+                    alert("⚠️ ফাইলের পাথ সঠিক নয়, প্রশাসককে জানান।");
+                }
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    function escapeAttr(str) {
+        if (!str) return "";
+        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    }
+
+    // সার্চ ইভেন্ট (অপরিবর্তিত)
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => renderCards(e.target.value));
+    }
+    renderCards("");
+    
+    // পেজ আনলোড হলে টাইমার ক্লিয়ার
+    window.addEventListener('beforeunload', () => {
+        if (activeTimer) clearInterval(activeTimer);
+    });
+</script>
+</body>
+</html>
